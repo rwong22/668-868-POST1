@@ -45,7 +45,7 @@ public class SalesLog {
 		salesLog += customerName + '\t' + date.toString() + '\n';
 		for (int i = 0; i < items.length; i++) {
 			Item currentItem = (Item) Inventory.items.get(items[i].getUPC());
-			total.add(currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())));
+			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())));
 			salesLog += currentItem.getDescription() + '\t' + items[i].getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())).toString() ) + '\n';
 		}
 		salesLog += "----------\n";
@@ -54,8 +54,6 @@ public class SalesLog {
 		salesLog += "Amount Returned: $0.00";
 		salesLog += '\n';
 		salesLog += '\n';
-
-		System.out.println(salesLog);
 
 		try {
 			writer.write(salesLog);
