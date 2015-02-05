@@ -52,14 +52,16 @@ public class SalesLog {
 		}
 		salesLog += "----------\n";
 		salesLog += "Total: $" + total.toString() + '\n';
+		BigDecimal change = new BigDecimal(0);
 		if (payment instanceof Cash) {
-			salesLog += "Amount Tendered: " + payment.getAmount();
+			salesLog += "Amount Tendered: " + payment.getAmount() + '\n';
+			change = payment.getAmount().subtract(total);
 		} else if (payment instanceof Check) {
-			salesLog += "Paid by Check: " + ( (Check) payment ).getCheckNumber();
+			salesLog += "Paid by Check: " + ( (Check) payment ).getAmount() + '\n';
 		} else {
-			salesLog += "Paid by Credit Card: " + ( (CreditCard) payment ).getCardNumber();
+			salesLog += "Paid by Credit Card: " + ( (CreditCard) payment ).getCardNumber() + "\n";
 		}
-		salesLog += "Amount Returned: $0.00" + '\n';
+		salesLog += "Amount Returned: " + change.toString() + '\n';
 		salesLog += '\n';
 
 		System.out.println(salesLog);
@@ -74,5 +76,19 @@ public class SalesLog {
 		}
 
 		return true;
+	}
+
+	public static void main(String[] args) {
+		ArrayList<ItemTuple> items = new ArrayList<ItemTuple>();
+		items.add(new ItemTuple("0001", 10));
+		items.add(new ItemTuple("0002", 1));
+		items.add(new ItemTuple("0003", 1));
+		items.add(new ItemTuple("0004", 1));
+		items.add(new ItemTuple("0005", 1));
+
+		Payment payment = new CreditCard("123456");
+
+		SalesLog log = new SalesLog("MyStore Name", "Test Test", items, payment);
+		log.writeLog();
 	}
 }

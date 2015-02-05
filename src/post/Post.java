@@ -1,7 +1,9 @@
 package post;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import payment.Payment;
 import store.Inventory;
@@ -22,11 +24,31 @@ public class Post {
 		items = null;
 	}
 
-	public boolean verifyUPC(String scanned) {
+	public boolean helpCustomer(Customer customer) {
+		Customer currentCustomer = customer;
+		BigDecimal total = new BigDecimal(0);
+
+		for (Iterator<ItemTuple> iterator = currentCustomer.getItemContainer().iterator(); iterator.hasNext();) {
+			ItemTuple currentItem = (ItemTuple) iterator.next();
+
+			if (verifyUPC(currentItem.getUPC())) {
+				total = total.add(items.get(currentItem.getUPC()).getPrice());
+			} else {
+				System.out.println("UPC: " + currentItem.getUPC() + " not found");
+				currentCustomer.getItemContainer().remove(currentItem);
+			}
+		}
+
+		checkout(currentCustomer);
+
+		return true;
+	}
+
+	private boolean verifyUPC(String scanned) {
 		return items.containsKey(scanned);
 	}
 
-	public boolean checkout(Customer customer) {
+	private boolean checkout(Customer customer) {
 		String customerName = customer.getName();
 		ArrayList<ItemTuple> itemContainer = customer.getItemContainer();
 		Payment payment = customer.getPayment();

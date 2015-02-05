@@ -1,10 +1,10 @@
 package post;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import payment.Payment;
 import utils.ItemTuple;
-import utils.Transaction;
 
 public class Customer extends User {
 
@@ -15,14 +15,18 @@ public class Customer extends User {
 		super(name);
 	}
 
-	public Customer(Transaction transaction) {
-		super(transaction.getCustomerName());
-		this.itemContainer = transaction.getItems();
-		this.payment = transaction.getPayment();
+	public Customer(String name, ArrayList<ItemTuple> items, Payment payment) {
+		super(name);
+		this.itemContainer = items;
+		this.payment = payment;
 	}
 
 	public void addItem(String upc, int quantity) {
 		itemContainer.add(new ItemTuple(upc, quantity));
+	}
+
+	public void addItem(ItemTuple item) {
+		itemContainer.add(item);
 	}
 
 	public void addPayment(Payment payment) {
@@ -37,4 +41,17 @@ public class Customer extends User {
 		return payment;
 	}
 
+	@Override
+	public String toString() {
+		String customer = getName() + '\n';
+
+		for (Iterator<ItemTuple> iterator = itemContainer.iterator(); iterator.hasNext();) {
+			ItemTuple itemTuple = (ItemTuple) iterator.next();
+			customer += itemTuple.getUPC() + '\t' + itemTuple.getQuantity() + '\n';
+		}
+
+		customer += payment.getType().toString() + '\t' + payment.getAmount().toString() + '\n';
+
+		return customer;
+	}
 }
