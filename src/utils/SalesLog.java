@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+import payment.Cash;
+import payment.Check;
+import payment.CreditCard;
 import payment.Payment;
 import store.Inventory;
 import store.Item;
@@ -49,9 +52,14 @@ public class SalesLog {
 		}
 		salesLog += "----------\n";
 		salesLog += "Total: $" + total.toString() + '\n';
-		// TODO: add payment info
-		salesLog += "Amount Returned: $0.00";
-		salesLog += '\n';
+		if (payment instanceof Cash) {
+			salesLog += "Amount Tendered: " + payment.getAmount();
+		} else if (payment instanceof Check) {
+			salesLog += "Paid by Check: " + ( (Check) payment ).getCheckNumber();
+		} else {
+			salesLog += "Paid by Credit Card: " + ( (CreditCard) payment ).getCardNumber();
+		}
+		salesLog += "Amount Returned: $0.00" + '\n';
 		salesLog += '\n';
 
 		System.out.println(salesLog);

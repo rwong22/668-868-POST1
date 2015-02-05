@@ -1,10 +1,11 @@
 package post;
 
-public class User {
+public abstract class User {
+
 	private String name;
 
-	User(String name) {
-		setName(name);
+	public User(String name) {
+		this.name = name;
 	};
 
 	public String getName() {
