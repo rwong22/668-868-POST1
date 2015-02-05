@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Inventory {
 
-	private static HashMap<Integer, Item> items;
+	private static HashMap<String, Item> items;
 	private static String filePath;
 	private static BufferedReader bufferedReader;
 
@@ -16,21 +16,17 @@ public class Inventory {
 		Inventory.filePath = filePath;
 	}
 
-	public static HashMap<Integer, Item> getItems() {
+	public static HashMap<String, Item> getItems() {
 		if (items == null) {
 			readProducts();
-			System.out.println("items was null");
-		} else {
-			System.out.println("not null: " + items.toString());
 		}
-
 		return items;
 	}
 
 	private static boolean readProducts() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filePath));
-			items = new HashMap<Integer, Item>();
+			items = new HashMap<String, Item>();
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 			return false;
@@ -47,7 +43,7 @@ public class Inventory {
 					tokens[1] = line.substring(9, 29);
 					tokens[2] = line.substring(34, 41);
 
-					items.put(Integer.parseInt(tokens[0]), new Item(tokens[0], tokens[1], null, new BigDecimal(tokens[2])));
+					items.put(tokens[0], new Item(tokens[0], tokens[1], null, new BigDecimal(tokens[2])));
 				}
 
 			} catch (Exception exception) {

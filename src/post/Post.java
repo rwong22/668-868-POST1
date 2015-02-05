@@ -1,11 +1,16 @@
 package post;
+
+import java.util.HashMap;
+
+import store.Inventory;
 import store.Item;
 
 public class Post {
 
-	public void init() {
-		// TODO Auto-generated method stub
+	private HashMap<String, Item> items;
 
+	public void init() {
+		items = Inventory.getItems();
 	}
 
 	public void cleanup() {
@@ -14,8 +19,7 @@ public class Post {
 	}
 
 	public boolean verifyUPC(String scanned) {
-		// TODO Auto-generated method stub
-		return false;
+		return items.containsKey(scanned);
 	}
 
 	public Item getItem(String scanned) {

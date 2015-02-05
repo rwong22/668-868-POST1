@@ -27,14 +27,15 @@ public class SalesLog {
 		this.items = items;
 		this.payment = payment;
 		this.date = new Date();
+	}
+
+	public boolean writeLog() {
 		try {
 			this.writer = new BufferedWriter(new FileWriter("/home/arod/workspace_eclipse/668-POST1/transaction.txt", true));
 		} catch (IOException exception) {
 			exception.printStackTrace();
+			return false;
 		}
-	}
-
-	public boolean writeLog() {
 		String salesLog;
 		BigDecimal total = new BigDecimal(0);
 
