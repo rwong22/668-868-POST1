@@ -1,3 +1,4 @@
+package store;
 /*
  * File:         [Item]
  * Created:      [2015/2/3]
@@ -15,7 +16,7 @@ public class Item {
 	private String gif;
 	private BigDecimal price;
 
-	Item(String upc, String description, String gif, BigDecimal price) {
+	public Item(String upc, String description, String gif, BigDecimal price) {
 		this.setUpc(upc);
 		this.setDescription(description);
 		this.setGif(gif);

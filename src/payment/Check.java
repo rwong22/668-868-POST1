@@ -1,3 +1,4 @@
+package payment;
 import java.math.BigDecimal;
 
 public class Check extends Payment {

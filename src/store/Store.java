@@ -1,4 +1,8 @@
+package store;
 import java.util.Scanner;
+
+import post.Customer;
+import post.Post;
 
 //TODO: , , STORE, 
 //DONE: ITEM User, CUSTOMER

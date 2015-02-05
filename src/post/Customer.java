@@ -1,10 +1,15 @@
+package post;
+
 import java.util.ArrayList;
+
+import payment.Payment;
+import store.Item;
 
 public class Customer extends User {
 	private ArrayList<Item> itemContainer = new ArrayList<Item>();
 	private ArrayList<Payment> paymentContainer = new ArrayList<Payment>();
 
-	Customer(String name) {
+	public Customer(String name) {
 		super(name);
 	}
 

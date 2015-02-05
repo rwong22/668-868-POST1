@@ -1,3 +1,6 @@
+package post;
+import store.Item;
+
 public class Post {
 
 	public void init() {
