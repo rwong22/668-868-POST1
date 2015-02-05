@@ -18,6 +18,7 @@ public class Customer extends User {
 	public Customer(Transaction transaction) {
 		super(transaction.getCustomerName());
 		this.itemContainer = transaction.getItems();
+		this.payment = transaction.getPayment();
 	}
 
 	public void addItem(String upc, int quantity) {

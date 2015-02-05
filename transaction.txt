@@ -1,9 +1,14 @@
-Store Name
+Customer1
+0001     01
+CREDIT   123456
 
-Customer Name	Wed Feb 04 17:57:43 PST 2015
-Can of soda         	10 @ 0.50	$5.00
-iPod                	5 @ 199.99	$999.95
-----------
-Total: $1004.95
-Amount Returned: $0.00
+Customer2
+0001     10
+CASH     0005.00
 
+Customer3
+0003     01
+0004     03
+0005     06
+0001     99
+CHECK    0957.74

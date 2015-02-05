@@ -6,6 +6,7 @@ import java.util.HashMap;
 import payment.Payment;
 import store.Inventory;
 import store.Item;
+import utils.Auth;
 import utils.ItemTuple;
 import utils.SalesLog;
 
@@ -25,12 +26,18 @@ public class Post {
 		return items.containsKey(scanned);
 	}
 
-	public String checkout(Customer customer) {
+	public boolean checkout(Customer customer) {
 		String customerName = customer.getName();
 		ArrayList<ItemTuple> itemContainer = customer.getItemContainer();
 		Payment payment = customer.getPayment();
 
-		return null;
+		if (Auth.authenticate(payment)) {
+			recodSale("MyStore", customerName, itemContainer, payment);
+		} else {
+			return false;
+		}
+
+		return true;
 	}
 
 	private boolean recodSale(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
