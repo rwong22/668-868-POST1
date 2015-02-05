@@ -9,12 +9,8 @@ import java.util.HashMap;
 public class Inventory {
 
 	private static HashMap<String, Item> items;
-	private static String filePath;
+	private static String filePath = "/home/arod/workspace_eclipse/668-POST1/products.txt";
 	private static BufferedReader bufferedReader;
-
-	public Inventory(String filePath) {
-		Inventory.filePath = filePath;
-	}
 
 	public static HashMap<String, Item> getItems() {
 		if (items == null) {

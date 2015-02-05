@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import post.Customer;
 import post.Post;
-import utils.ItemTuple;
 
 // TODO: , , STORE,
 // DONE: ITEM User, CUSTOMER
@@ -56,11 +55,20 @@ public class Store {
 				// check if upc is valid
 				if (post.verifyUPC(scanned)) {
 					// success
-					customer.addItem(scanned, 1);// this might be a
-													// little odd, but
-													// will rework later
-													// on
 					System.out.println("UPC FOUND! item added to Cart");
+					String upc = scanned;
+					System.out.println("Enter the quantity for this item: ");
+					scanned = scanner.nextLine();
+					customer.addItem(upc, Integer.parseInt(scanned));// this
+																		// might
+																		// be a
+																		// little
+																		// odd,
+																		// but
+																		// will
+																		// rework
+																		// later
+																		// on
 				} else {
 					// fail
 					System.out.println("sorry, UPC does not exsist in system.");

@@ -67,12 +67,4 @@ public class SalesLog {
 
 		return true;
 	}
-
-	public static void main(String[] args) {
-		Inventory inv = new Inventory("/home/arod/workspace_eclipse/668-POST1/products.txt");
-
-		// SalesLog log = new SalesLog("Store Name", "Customer Name", items, new
-		// Cash(new BigDecimal(100.00)));
-		// log.writeLog();
-	}
 }

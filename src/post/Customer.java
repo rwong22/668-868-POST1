@@ -9,7 +9,7 @@ import utils.Transaction;
 public class Customer extends User {
 
 	private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
-	private ArrayList<Payment> paymentContainer = new ArrayList<Payment>();
+	private Payment payment;
 
 	public Customer(String name) {
 		super(name);
@@ -25,15 +25,15 @@ public class Customer extends User {
 	}
 
 	public void addPayment(Payment payment) {
-		paymentContainer.add(payment);
+		this.payment = payment;
 	}
 
 	public ArrayList<ItemTuple> getItemContainer() {
 		return itemContainer;
 	}
 
-	public ArrayList<Payment> getPaymentContainer() {
-		return paymentContainer;
+	public Payment getPayment() {
+		return payment;
 	}
 
 }
