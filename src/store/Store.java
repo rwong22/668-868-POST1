@@ -56,10 +56,10 @@ public class Store {
 				// check if upc is valid
 				if (post.verifyUPC(scanned)) {
 					// success
-					customer.addItem(scanned);// this might be a
-												// little odd, but
-												// will rework later
-												// on
+					customer.addItem(scanned, 1);// this might be a
+													// little odd, but
+													// will rework later
+													// on
 					System.out.println("UPC FOUND! item added to Cart");
 				} else {
 					// fail

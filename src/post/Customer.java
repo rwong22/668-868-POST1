@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import payment.Payment;
 import utils.ItemTuple;
+import utils.Transaction;
 
 public class Customer extends User {
 
@@ -14,8 +15,13 @@ public class Customer extends User {
 		super(name);
 	}
 
-	public void addItem(String upc) {
-		itemContainer.add(new ItemTuple(upc, 1));
+	public Customer(Transaction transaction) {
+		super(transaction.getCustomerName());
+		this.itemContainer = transaction.getItems();
+	}
+
+	public void addItem(String upc, int quantity) {
+		itemContainer.add(new ItemTuple(upc, quantity));
 	}
 
 	public void addPayment(Payment payment) {

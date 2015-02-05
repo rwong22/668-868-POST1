@@ -4,9 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
-import payment.Cash;
 import payment.Payment;
 import store.Inventory;
 import store.Item;
@@ -17,11 +17,11 @@ public class SalesLog {
 
 	private String storeName;
 	private String customerName;
-	private ItemTuple[] items;
+	private ArrayList<ItemTuple> items;
 	private Payment payment;
 	private Date date;
 
-	public SalesLog(String storeName, String customerName, ItemTuple[] items, Payment payment) {
+	public SalesLog(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
 		this.storeName = storeName;
 		this.customerName = customerName;
 		this.items = items;
@@ -31,7 +31,7 @@ public class SalesLog {
 
 	public boolean writeLog() {
 		try {
-			this.writer = new BufferedWriter(new FileWriter("/home/arod/workspace_eclipse/668-POST1/transaction.txt", true));
+			this.writer = new BufferedWriter(new FileWriter("/home/arod/workspace_eclipse/668-POST1/sales.log", true));
 		} catch (IOException exception) {
 			exception.printStackTrace();
 			return false;
@@ -42,10 +42,10 @@ public class SalesLog {
 		salesLog = storeName + '\n';
 		salesLog += '\n';
 		salesLog += customerName + '\t' + date.toString() + '\n';
-		for (int i = 0; i < items.length; i++) {
-			Item currentItem = (Item) Inventory.getItems().get(items[i].getUPC());
-			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())));
-			salesLog += currentItem.getDescription() + '\t' + items[i].getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())).toString() ) + '\n';
+		for (int i = 0; i < items.size(); i++) {
+			Item currentItem = (Item) Inventory.getItems().get(items.get(i).getUPC());
+			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())));
+			salesLog += currentItem.getDescription() + '\t' + items.get(i).getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString() ) + '\n';
 		}
 		salesLog += "----------\n";
 		salesLog += "Total: $" + total.toString() + '\n';
@@ -71,11 +71,8 @@ public class SalesLog {
 	public static void main(String[] args) {
 		Inventory inv = new Inventory("/home/arod/workspace_eclipse/668-POST1/products.txt");
 
-		ItemTuple[] items = new ItemTuple[2];
-		items[0] = new ItemTuple("0001", 10);
-		items[1] = new ItemTuple("0002", 5);
-
-		SalesLog log = new SalesLog("Store Name", "Customer Name", items, new Cash(new BigDecimal(100.00)));
-		log.writeLog();
+		// SalesLog log = new SalesLog("Store Name", "Customer Name", items, new
+		// Cash(new BigDecimal(100.00)));
+		// log.writeLog();
 	}
 }
