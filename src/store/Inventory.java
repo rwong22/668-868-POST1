@@ -3,17 +3,27 @@ package store;
 import java.util.HashMap;
 
 import utils.FileIO;
-import utils.FileIOType;
 
 public class Inventory {
 
 	public static HashMap<Integer, Item> items = new HashMap<Integer, Item>();
-	private FileIO inventoryReader;
+	private static FileIO inventoryReader;
+	private static String filePath;
 
 	public Inventory(String filePath) {
-		inventoryReader = new FileIO(filePath, FileIOType.READER);
+		this.filePath = filePath;
+		inventoryReader = new FileIO(filePath);
 		items = inventoryReader.getItems();
+
 		inventoryReader = null;
 	}
 
+	public static HashMap<Integer, Item> getItems() {
+		if (items == null) {
+			inventoryReader = new FileIO(filePath);
+			items = inventoryReader.getItems();
+		}
+
+		return items;
+	}
 }

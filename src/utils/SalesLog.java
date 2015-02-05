@@ -21,16 +21,6 @@ public class SalesLog {
 	private Payment payment;
 	private Date date;
 
-	public static void main(String[] args) {
-		Inventory inv = new Inventory("/home/arod/workspace_eclipse/668-POST1/products.txt");
-
-		ItemTuple[] items = new ItemTuple[2];
-		items[0] = new ItemTuple(0001, 10);
-		items[1] = new ItemTuple(0002, 5);
-
-		SalesLog log = new SalesLog("Store Name Goes Here", "Customer Name Goes Here", items, new Cash(new BigDecimal(100.00)));
-	}
-
 	public SalesLog(String storeName, String customerName, ItemTuple[] items, Payment payment) {
 		this.storeName = storeName;
 		this.customerName = customerName;
@@ -54,7 +44,7 @@ public class SalesLog {
 		salesLog += '\n';
 		salesLog += customerName + '\t' + date.toString() + '\n';
 		for (int i = 0; i < items.length; i++) {
-			Item currentItem = Inventory.items.get(items[i].getUPC());
+			Item currentItem = (Item) Inventory.items.get(items[i].getUPC());
 			total.add(currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())));
 			salesLog += currentItem.getDescription() + '\t' + items[i].getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())).toString() ) + '\n';
 		}
@@ -63,13 +53,28 @@ public class SalesLog {
 		// TODO: add payment info
 		salesLog += "Amount Returned: $0.00";
 		salesLog += '\n';
+		salesLog += '\n';
+
+		System.out.println(salesLog);
 
 		try {
 			writer.write(salesLog);
+			writer.flush();
+			writer.close();
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
 
 		return true;
+	}
+
+	public static void main(String[] args) {
+		Inventory inv = new Inventory("/home/arod/workspace_eclipse/668-POST1/products.txt");
+
+		ItemTuple[] items = new ItemTuple[2];
+		items[0] = new ItemTuple(0001, 10);
+		items[1] = new ItemTuple(0002, 5);
+
+		SalesLog log = new SalesLog("Store Name", "Customer Name", items, new Cash(new BigDecimal(100.00)));
 	}
 }

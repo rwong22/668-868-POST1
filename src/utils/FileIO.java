@@ -11,26 +11,15 @@ import store.Item;
 public class FileIO {
 
 	private String filePath;
-	private FileIOType ioType;
 	private FileIOReader reader;
-	private FileIOWriter writer;
 	private HashMap<Integer, Item> items;
 
-	public static void main(String[] args) {
-		FileIO io = new FileIO("/home/arod/workspace_eclipse/668-POST1/products.txt", FileIOType.READER);
-	}
-
-	public FileIO(String filePath, FileIOType ioType) {
+	public FileIO(String filePath) {
 		this.filePath = filePath;
-		this.ioType = ioType;
 		this.items = new HashMap<Integer, Item>();
 
-		if (ioType == FileIOType.READER) {
-			reader = new FileIOReader();
-			getProducts();
-		} else {
-			writer = new FileIOWriter();
-		}
+		reader = new FileIOReader();
+		getProducts();
 	}
 
 	public HashMap<Integer, Item> getItems() {
@@ -55,15 +44,16 @@ public class FileIO {
 		}
 
 		public boolean readProducts() {
-			int i = 1;
 			String line = " ";
-			String delims = "[ ]+";
 			while (line != null) {
 				try {
 					line = bufferedReader.readLine();
 
 					if (line != null) {
-						String[] tokens = line.split(delims);
+						String[] tokens = new String[3];
+						tokens[0] = line.substring(0, 4);
+						tokens[1] = line.substring(9, 29);
+						tokens[2] = line.substring(34, 41);
 
 						items.put(Integer.parseInt(tokens[0]), new Item(tokens[0], tokens[1], null, new BigDecimal(tokens[2])));
 					}
@@ -75,12 +65,4 @@ public class FileIO {
 			return true;
 		}
 	}
-
-	private class FileIOWriter {
-
-		public boolean write() {
-			return false;
-		}
-	}
-
 }

@@ -1,2 +1,5 @@
-0001     abcdefghijklmnopqrst     0001.99
-0002     asdfhlasdjhfjahsdfjs     1000.00
+0001     Can of soda              0000.50
+0002     iPod                     0199.99
+0003     Office chair             0074.99
+0004     AMD fx-9590 CPU          0239.99
+0005     Can of Air               0018.88
