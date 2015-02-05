@@ -1,0 +1,9 @@
+Store Name
+
+Customer Name	Wed Feb 04 17:57:43 PST 2015
+Can of soda         	10 @ 0.50	$5.00
+iPod                	5 @ 199.99	$999.95
+----------
+Total: $1004.95
+Amount Returned: $0.00
+

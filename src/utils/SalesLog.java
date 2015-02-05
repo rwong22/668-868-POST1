@@ -32,11 +32,9 @@ public class SalesLog {
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
-
-		writeLog();
 	}
 
-	private boolean writeLog() {
+	public boolean writeLog() {
 		String salesLog;
 		BigDecimal total = new BigDecimal(0);
 
@@ -44,7 +42,7 @@ public class SalesLog {
 		salesLog += '\n';
 		salesLog += customerName + '\t' + date.toString() + '\n';
 		for (int i = 0; i < items.length; i++) {
-			Item currentItem = (Item) Inventory.items.get(items[i].getUPC());
+			Item currentItem = (Item) Inventory.getItems().get(items[i].getUPC());
 			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())));
 			salesLog += currentItem.getDescription() + '\t' + items[i].getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items[i].getQuantity())).toString() ) + '\n';
 		}
@@ -55,12 +53,15 @@ public class SalesLog {
 		salesLog += '\n';
 		salesLog += '\n';
 
+		System.out.println(salesLog);
+
 		try {
 			writer.write(salesLog);
 			writer.flush();
 			writer.close();
 		} catch (IOException exception) {
 			exception.printStackTrace();
+			return false;
 		}
 
 		return true;
@@ -74,5 +75,6 @@ public class SalesLog {
 		items[1] = new ItemTuple(0002, 5);
 
 		SalesLog log = new SalesLog("Store Name", "Customer Name", items, new Cash(new BigDecimal(100.00)));
+		log.writeLog();
 	}
 }
