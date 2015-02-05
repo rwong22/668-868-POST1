@@ -2,15 +2,15 @@ package utils;
 
 public class ItemTuple {
 
-	private int UPC;
+	private String UPC;
 	private int quantity;
 
-	public ItemTuple(int UPC, int quantity) {
+	public ItemTuple(String UPC, int quantity) {
 		this.UPC = UPC;
 		this.quantity = quantity;
 	}
 
-	public int getUPC() {
+	public String getUPC() {
 		return UPC;
 	}
 
@@ -18,7 +18,7 @@ public class ItemTuple {
 		return quantity;
 	}
 
-	public void setUPC(int uPC) {
+	public void setUPC(String uPC) {
 		UPC = uPC;
 	}
 

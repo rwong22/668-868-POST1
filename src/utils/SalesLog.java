@@ -72,8 +72,8 @@ public class SalesLog {
 		Inventory inv = new Inventory("/home/arod/workspace_eclipse/668-POST1/products.txt");
 
 		ItemTuple[] items = new ItemTuple[2];
-		items[0] = new ItemTuple(0001, 10);
-		items[1] = new ItemTuple(0002, 5);
+		items[0] = new ItemTuple("0001", 10);
+		items[1] = new ItemTuple("0002", 5);
 
 		SalesLog log = new SalesLog("Store Name", "Customer Name", items, new Cash(new BigDecimal(100.00)));
 		log.writeLog();

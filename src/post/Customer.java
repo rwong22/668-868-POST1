@@ -3,25 +3,26 @@ package post;
 import java.util.ArrayList;
 
 import payment.Payment;
-import store.Item;
+import utils.ItemTuple;
 
 public class Customer extends User {
-	private ArrayList<Item> itemContainer = new ArrayList<Item>();
+
+	private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
 	private ArrayList<Payment> paymentContainer = new ArrayList<Payment>();
 
 	public Customer(String name) {
 		super(name);
 	}
 
-	public void addItem(Item item) {
-		itemContainer.add(item);
+	public void addItem(String upc) {
+		itemContainer.add(new ItemTuple(upc, 1));
 	}
 
 	public void addPayment(Payment payment) {
 		paymentContainer.add(payment);
 	}
 
-	public ArrayList<Item> getItemContainer() {
+	public ArrayList<ItemTuple> getItemContainer() {
 		return itemContainer;
 	}
 

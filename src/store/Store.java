@@ -1,12 +1,15 @@
 package store;
+
 import java.util.Scanner;
 
 import post.Customer;
 import post.Post;
+import utils.ItemTuple;
 
-//TODO: , , STORE, 
-//DONE: ITEM User, CUSTOMER
+// TODO: , , STORE,
+// DONE: ITEM User, CUSTOMER
 public class Store {
+
 	static Scanner scanner = new Scanner(System.in);
 	static Customer customer;
 	static Post post = new Post();
@@ -47,17 +50,16 @@ public class Store {
 		// buy stuff
 		String scanned = "";
 		do {
-			System.out.print("hi, " + customer.getName()
-					+ " Enter UPC#, 'p' for payment, or 'x' for exit: ");
+			System.out.print("hi, " + customer.getName() + " Enter UPC#, 'p' for payment, or 'x' for exit: ");
 			scanned = scanner.nextLine();
 			if (!scanned.equals("x") || !scanned.equals("p")) {
 				// check if upc is valid
 				if (post.verifyUPC(scanned)) {
 					// success
-					customer.addItem(post.getItem(scanned));// this might be a
-															// little odd, but
-															// will rework later
-															// on
+					customer.addItem(scanned);// this might be a
+												// little odd, but
+												// will rework later
+												// on
 					System.out.println("UPC FOUND! item added to Cart");
 				} else {
 					// fail
