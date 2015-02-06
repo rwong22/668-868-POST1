@@ -23,8 +23,12 @@ public class SalesLog {
 	private ArrayList<ItemTuple> items;
 	private Payment payment;
 	private Date date;
+	private final int DESCRIPTION_PADDING = 20;
+	private final int QUANTITY_PADDING = 19;
+	private final int PRICE_PADDING = 10;
 
-	public SalesLog(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
+	public SalesLog(String storeName, String customerName,
+			ArrayList<ItemTuple> items, Payment payment) {
 		this.storeName = storeName;
 		this.customerName = customerName;
 		this.items = items;
@@ -44,22 +48,45 @@ public class SalesLog {
 
 		salesLog = storeName + '\n';
 		salesLog += '\n';
-		salesLog += customerName + '\t' + date.toString() + '\n';
+		salesLog += padRight(customerName, DESCRIPTION_PADDING)
+				+ padLeft(date.toString() + '\n', +QUANTITY_PADDING
+						+ PRICE_PADDING);
 		for (int i = 0; i < items.size(); i++) {
-			Item currentItem = (Item) Inventory.getItems().get(items.get(i).getUPC());
-			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())));
-			salesLog += currentItem.getDescription() + '\t' + items.get(i).getQuantity() + " @ " + currentItem.getPrice() + '\t' + "$" + ( currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString() ) + '\n';
+			Item currentItem = (Item) Inventory.getItems().get(
+					items.get(i).getUPC());
+			total = total.add(currentItem.getPrice().multiply(
+					new BigDecimal(items.get(i).getQuantity())));
+			salesLog += padRight(currentItem.getDescription(),
+					DESCRIPTION_PADDING)
+
+					+ padRight(
+							items.get(i).getQuantity() + " @ "
+									+ currentItem.getPrice(), QUANTITY_PADDING)
+
+					+ padLeft(
+							"$"
+									+ (currentItem.getPrice().multiply(
+											new BigDecimal(items.get(i)
+													.getQuantity())).toString())
+									+ '\n', PRICE_PADDING);
 		}
-		salesLog += "----------\n";
-		salesLog += "Total: $" + total.toString() + '\n';
+		for (int i = 0; i < DESCRIPTION_PADDING + QUANTITY_PADDING
+				+ PRICE_PADDING; i++) {
+			salesLog += "-";
+		}
+		salesLog += "\n";
+		salesLog += padLeft("Total: $" + total.toString() + '\n',
+				DESCRIPTION_PADDING + QUANTITY_PADDING + PRICE_PADDING);
 		BigDecimal change = new BigDecimal(0);
 		if (payment instanceof Cash) {
 			salesLog += "Amount Tendered: " + payment.getAmount() + '\n';
 			change = payment.getAmount().subtract(total);
 		} else if (payment instanceof Check) {
-			salesLog += "Paid by Check: " + ( (Check) payment ).getAmount() + '\n';
+			salesLog += "Paid by Check: " + ((Check) payment).getAmount()
+					+ '\n';
 		} else {
-			salesLog += "Paid by Credit Card: " + ( (CreditCard) payment ).getCardNumber() + "\n";
+			salesLog += "Paid by Credit Card: "
+					+ ((CreditCard) payment).getCardNumber() + "\n";
 		}
 		salesLog += "Amount Returned: " + change.toString() + '\n';
 		salesLog += '\n';
@@ -90,5 +117,13 @@ public class SalesLog {
 
 		SalesLog log = new SalesLog("MyStore Name", "Test Test", items, payment);
 		log.writeLog();
+	}
+
+	private String padRight(String s, int n) {
+		return String.format("%1$-" + n + "s", s);
+	}
+
+	private String padLeft(String s, int n) {
+		return String.format("%1$" + n + "s", s);
 	}
 }

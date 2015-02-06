@@ -1,0 +1,431 @@
+MyStore
+
+Customer1	Fri Feb 06 13:12:46 PST 2015
+Can of soda         	1 @ 0.50	$0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer2	Fri Feb 06 13:12:46 PST 2015
+Can of soda         	5 @ 0.50	$2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+Customer3	Fri Feb 06 13:12:46 PST 2015
+Office chair        	1 @ 74.99	$74.99
+AMD fx-9590 CPU     	3 @ 239.99	$719.97
+Can of Air          	5 @ 18.88	$94.40
+Can of soda         	99 @ 0.50	$49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore
+
+Customer1	Fri Feb 06 13:17:50 PST 2015
+Can of soda         	1 @ 0.50	$0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer2	Fri Feb 06 13:17:50 PST 2015
+Can of soda         	5 @ 0.50	$2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+Customer3	Fri Feb 06 13:17:50 PST 2015
+Office chair        	1 @ 74.99	$74.99
+AMD fx-9590 CPU     	3 @ 239.99	$719.97
+Can of Air          	5 @ 18.88	$94.40
+Can of soda         	99 @ 0.50	$49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore
+
+Customer1	Fri Feb 06 13:28:18 PST 2015
+Can of soda         	1 @ 0.50	$0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer2	Fri Feb 06 13:28:18 PST 2015
+Can of soda         	5 @ 0.50	$2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+Customer3	Fri Feb 06 13:28:18 PST 2015
+Office chair        	1 @ 74.99	$74.99
+AMD fx-9590 CPU     	3 @ 239.99	$719.97
+Can of Air          	5 @ 18.88	$94.40
+Can of soda         	99 @ 0.50	$49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore Name
+
+Test Test	Fri Feb 06 14:50:12 PST 2015
+Can of soda         	10 @ 0.50	$5.00
+iPod                	1 @ 199.99	$199.99
+Office chair        	1 @ 74.99	$74.99
+AMD fx-9590 CPU     	1 @ 239.99	$239.99
+Can of Air          	1 @ 18.88	$18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test	Fri Feb 06 14:52:26 PST 2015
+Can of soda         	10 @ 0.50           	$5.00
+iPod                	1 @ 199.99          	$199.99
+Office chair        	1 @ 74.99           	$74.99
+AMD fx-9590 CPU     	1 @ 239.99          	$239.99
+Can of Air          	1 @ 18.88           	$18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test	Fri Feb 06 14:54:10 PST 2015
+Can of soda         	10 @ 0.50           	              $5.00
+iPod                	1 @ 199.99          	            $199.99
+Office chair        	1 @ 74.99           	             $74.99
+AMD fx-9590 CPU     	1 @ 239.99          	            $239.99
+Can of Air          	1 @ 18.88           	             $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test	Fri Feb 06 14:54:24 PST 2015
+Can of soda         	10 @ 0.50           	    $5.00
+iPod                	1 @ 199.99          	  $199.99
+Office chair        	1 @ 74.99           	   $74.99
+AMD fx-9590 CPU     	1 @ 239.99          	  $239.99
+Can of Air          	1 @ 18.88           	   $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+                   Test Test	Fri Feb 06 14:55:05 PST 2015
+Can of soda         	10 @ 0.50           	    $5.00
+iPod                	1 @ 199.99          	  $199.99
+Office chair        	1 @ 74.99           	   $74.99
+AMD fx-9590 CPU     	1 @ 239.99          	  $239.99
+Can of Air          	1 @ 18.88           	   $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+           Test Test	Fri Feb 06 14:55:23 PST 2015
+Can of soda         	10 @ 0.50           	    $5.00
+iPod                	1 @ 199.99          	  $199.99
+Office chair        	1 @ 74.99           	   $74.99
+AMD fx-9590 CPU     	1 @ 239.99          	  $239.99
+Can of Air          	1 @ 18.88           	   $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+           Customer1	Fri Feb 06 14:56:09 PST 2015
+Can of soda         	1 @ 0.50            	    $0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+           Customer2	Fri Feb 06 14:56:09 PST 2015
+Can of soda         	5 @ 0.50            	    $2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+           Customer3	Fri Feb 06 14:56:09 PST 2015
+Office chair        	1 @ 74.99           	   $74.99
+AMD fx-9590 CPU     	3 @ 239.99          	  $719.97
+Can of Air          	5 @ 18.88           	   $94.40
+Can of soda         	99 @ 0.50           	   $49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore Name
+
+            Test TestFri Feb 06 14:56:39 PST 2015
+Can of soda         10 @ 0.50               $5.00
+iPod                1 @ 199.99            $199.99
+Office chair        1 @ 74.99              $74.99
+AMD fx-9590 CPU     1 @ 239.99            $239.99
+Can of Air          1 @ 18.88              $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+            Test TestFri Feb 06 14:58:28 PST 2015
+Can of soda         10 @ 0.50               $5.00
+iPod                1 @ 199.99            $199.99
+Office chair        1 @ 74.99              $74.99
+AMD fx-9590 CPU     1 @ 239.99            $239.99
+Can of Air          1 @ 18.88              $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+          Test TestFri Feb 06 14:59:03 PST 2015
+Can of soda         10 @ 0.50             $5.00
+iPod                1 @ 199.99          $199.99
+Office chair        1 @ 74.99            $74.99
+AMD fx-9590 CPU     1 @ 239.99          $239.99
+Can of Air          1 @ 18.88            $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+          Customer1Fri Feb 06 14:59:14 PST 2015
+Can of soda         1 @ 0.50              $0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+          Customer2Fri Feb 06 14:59:14 PST 2015
+Can of soda         5 @ 0.50              $2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+          Customer3Fri Feb 06 14:59:14 PST 2015
+Office chair        1 @ 74.99            $74.99
+AMD fx-9590 CPU     3 @ 239.99          $719.97
+Can of Air          5 @ 18.88            $94.40
+Can of soda         99 @ 0.50            $49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore Name
+
+Test Test                   Fri Feb 06 15:00:42 PST 2015
+Can of soda         10 @ 0.50             $5.00
+iPod                1 @ 199.99          $199.99
+Office chair        1 @ 74.99            $74.99
+AMD fx-9590 CPU     1 @ 239.99          $239.99
+Can of Air          1 @ 18.88            $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test                              Fri Feb 06 15:01:14 PST 2015
+Can of soda         10 @ 0.50             $5.00
+iPod                1 @ 199.99          $199.99
+Office chair        1 @ 74.99            $74.99
+AMD fx-9590 CPU     1 @ 239.99          $239.99
+Can of Air          1 @ 18.88            $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test           Fri Feb 06 15:01:30 PST 2015
+Can of soda         10 @ 0.50             $5.00
+iPod                1 @ 199.99          $199.99
+Office chair        1 @ 74.99            $74.99
+AMD fx-9590 CPU     1 @ 239.99          $239.99
+Can of Air          1 @ 18.88            $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test            Fri Feb 06 15:02:09 PST 2015
+Can of soda         10 @ 0.50               $5.00
+iPod                1 @ 199.99            $199.99
+Office chair        1 @ 74.99              $74.99
+AMD fx-9590 CPU     1 @ 239.99            $239.99
+Can of Air          1 @ 18.88              $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test             Fri Feb 06 15:03:02 PST 2015
+Can of soda         10 @ 0.50                $5.00
+iPod                1 @ 199.99             $199.99
+Office chair        1 @ 74.99               $74.99
+AMD fx-9590 CPU     1 @ 239.99             $239.99
+Can of Air          1 @ 18.88               $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test           Fri Feb 06 15:03:08 PST 2015
+Can of soda         10 @ 0.50              $5.00
+iPod                1 @ 199.99           $199.99
+Office chair        1 @ 74.99             $74.99
+AMD fx-9590 CPU     1 @ 239.99           $239.99
+Can of Air          1 @ 18.88             $18.88
+----------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer1           Fri Feb 06 15:03:25 PST 2015
+Can of soda         1 @ 0.50               $0.50
+----------
+Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer2           Fri Feb 06 15:03:25 PST 2015
+Can of soda         5 @ 0.50               $2.50
+----------
+Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+Customer3           Fri Feb 06 15:03:25 PST 2015
+Office chair        1 @ 74.99             $74.99
+AMD fx-9590 CPU     3 @ 239.99           $719.97
+Can of Air          5 @ 18.88             $94.40
+Can of soda         99 @ 0.50             $49.50
+----------
+Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
+MyStore Name
+
+Test Test           Fri Feb 06 15:06:15 PST 2015
+Can of soda         10 @ 0.50              $5.00
+iPod                1 @ 199.99           $199.99
+Office chair        1 @ 74.99             $74.99
+AMD fx-9590 CPU     1 @ 239.99           $239.99
+Can of Air          1 @ 18.88             $18.88
+-------------------------------------------------
+Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore Name
+
+Test Test           Fri Feb 06 15:07:42 PST 2015
+Can of soda         10 @ 0.50              $5.00
+iPod                1 @ 199.99           $199.99
+Office chair        1 @ 74.99             $74.99
+AMD fx-9590 CPU     1 @ 239.99           $239.99
+Can of Air          1 @ 18.88             $18.88
+-------------------------------------------------
+                                  Total: $538.85
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer1           Fri Feb 06 15:08:37 PST 2015
+Can of soda         1 @ 0.50               $0.50
+-------------------------------------------------
+                                    Total: $0.50
+Paid by Credit Card: 123456
+Amount Returned: 0
+
+MyStore
+
+Customer2           Fri Feb 06 15:08:38 PST 2015
+Can of soda         5 @ 0.50               $2.50
+-------------------------------------------------
+                                    Total: $2.50
+Amount Tendered: 5.00
+Amount Returned: 2.50
+
+MyStore
+
+Customer3           Fri Feb 06 15:08:38 PST 2015
+Office chair        1 @ 74.99             $74.99
+AMD fx-9590 CPU     3 @ 239.99           $719.97
+Can of Air          5 @ 18.88             $94.40
+Can of soda         99 @ 0.50             $49.50
+-------------------------------------------------
+                                  Total: $938.86
+Paid by Check: 957.74
+Amount Returned: 0
+
