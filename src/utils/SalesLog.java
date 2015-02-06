@@ -34,7 +34,7 @@ public class SalesLog {
 
 	public boolean writeLog() {
 		try {
-			this.writer = new BufferedWriter(new FileWriter("/home/arod/workspace_eclipse/668-POST1/sales.log", true));
+			this.writer = new BufferedWriter(new FileWriter("sales.log", true));
 		} catch (IOException exception) {
 			exception.printStackTrace();
 			return false;

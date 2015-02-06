@@ -14,7 +14,7 @@ import post.Customer;
 public class Transaction {
 
 	private static ArrayList<Customer> customerList;
-	private static String filePath = "/home/arod/workspace_eclipse/668-POST1/transactions.txt";
+	private static String filePath = "transactions.txt";
 	private static BufferedReader bufferedReader;
 
 	public static ArrayList<Customer> getTransactions() {

@@ -1,5 +1,5 @@
 Customer1
-00001     01
+0001     01
 CREDIT   123456
 
 Customer2
