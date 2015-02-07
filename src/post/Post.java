@@ -27,15 +27,17 @@ public class Post {
 	public boolean helpCustomer(Customer customer) {
 		Customer currentCustomer = customer;
 		BigDecimal total = new BigDecimal(0);
-
+		ArrayList<ItemTuple> itemListCopy = new ArrayList<ItemTuple>();
+		
+		
 		for (Iterator<ItemTuple> iterator = currentCustomer.getItemContainer().iterator(); iterator.hasNext();) {
 			ItemTuple currentItem = (ItemTuple) iterator.next();
 
 			if (verifyUPC(currentItem.getUPC())) {
 				total = total.add(items.get(currentItem.getUPC()).getPrice());
 			} else {
-				System.out.println("UPC: " + currentItem.getUPC() + " not found");
-				currentCustomer.getItemContainer().remove(currentItem);
+				System.out.println("UPC: " + currentItem.getUPC() + " not found, item not added.");
+				iterator.remove();
 			}
 		}
 
