@@ -7,6 +7,9 @@ import payment.Payment;
 
 public class Auth {
 
+	/**
+	 * If payment is CreditCard, generate random number and reject ~10%
+	 */
 	public static boolean authenticate(Payment payment) {
 		if (payment instanceof CreditCard) {
 			Random random = new Random();

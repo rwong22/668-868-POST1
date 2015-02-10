@@ -1,5 +1,11 @@
 package utils;
 
+/**
+ * Holds an Item UPC and quantity for that Item.
+ * b/c we are using a singleton in the Inventory class,
+ * we only need to really pass around ItemTuple arrays
+ * to have all Item information, and customer cart info.
+ */
 public class ItemTuple {
 
 	private String UPC;

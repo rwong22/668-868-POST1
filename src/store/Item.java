@@ -11,6 +11,7 @@ package store;
 import java.math.BigDecimal;
 
 public class Item {
+
 	private String upc;
 	private String description;
 	private String gif;

@@ -8,11 +8,12 @@ import post.Customer;
 import post.Post;
 import utils.Transaction;
 
-// TODO: , , STORE,
-// DONE: ITEM User, CUSTOMER
+/**
+ * Iterates through transactions and processes Customer objects.
+ */
 public class Store {
 
-	public static Scanner scanner = new Scanner(System.in);
+	public static Scanner scanner = new Scanner(System.in); // Currently unused
 	public static ArrayList<Customer> customerList;
 	public static Post post = new Post();
 
@@ -25,7 +26,5 @@ public class Store {
 			Customer customer = (Customer) iterator.next();
 			post.helpCustomer(customer);
 		}
-
 	}
-
 }

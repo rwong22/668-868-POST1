@@ -6,6 +6,11 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+/**
+ * Reads products.txt and creates a singleton of all
+ * available items by UPC code stored as a String.
+ *
+ */
 public class Inventory {
 
 	private static HashMap<String, Item> items;
@@ -19,6 +24,12 @@ public class Inventory {
 		return items;
 	}
 
+	/*
+	 * Reads products.txt which is a formatted text file
+	 * that contains item information for all valid items.
+	 * @return	true	operation succeeded
+	 * @return	false	operation ended in error
+	 */
 	private static boolean readProducts() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filePath));

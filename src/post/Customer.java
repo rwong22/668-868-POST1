@@ -6,6 +6,11 @@ import java.util.Iterator;
 import payment.Payment;
 import utils.ItemTuple;
 
+/**
+ * Object that corresponds to a user of this POST program.
+ * Adds items to a list and uses post to process a sale.
+ *
+ */
 public class Customer extends User {
 
 	private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
@@ -41,6 +46,9 @@ public class Customer extends User {
 		return payment;
 	}
 
+	/*
+	 * For debugging
+	 */
 	@Override
 	public String toString() {
 		String customer = getName() + '\n';

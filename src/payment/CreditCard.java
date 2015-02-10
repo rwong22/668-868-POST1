@@ -2,6 +2,10 @@ package payment;
 
 import java.math.BigDecimal;
 
+/**
+ * CreditCard payment
+ *
+ */
 public class CreditCard extends Payment {
 
 	private String cardNumber;

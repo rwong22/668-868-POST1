@@ -11,6 +11,11 @@ import payment.Check;
 import payment.CreditCard;
 import post.Customer;
 
+/**
+ * Reads the QA style transactions.txt file
+ * to rapidly create Customer objects with
+ * information from a text file.
+ */
 public class Transaction {
 
 	private static ArrayList<Customer> customerList;
@@ -25,6 +30,14 @@ public class Transaction {
 		return customerList;
 	}
 
+	/*
+	 * Reads transaction.txt which is a formatted file that contains
+	 * customer transaction information for QA testing.
+	 * Once the item has been verified, it adds that item
+	 * to the customer object.
+	 * @return	true	operation succeeded
+	 * @return	false	operation ended in error
+	 */
 	private static boolean readTransactions() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filePath));
@@ -36,6 +49,7 @@ public class Transaction {
 
 		Customer newCustomer;
 		String line = " ";
+		// Split each line into tokens delimited by one or more spaces '[ ]+'
 		while (line != null) {
 			try {
 				line = bufferedReader.readLine();

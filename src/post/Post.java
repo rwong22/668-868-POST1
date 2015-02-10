@@ -12,6 +12,11 @@ import utils.Auth;
 import utils.ItemTuple;
 import utils.SalesLog;
 
+/**
+ * Point Of Sale Terminal (POST)
+ * Simulated cash register to help Customer objects
+ * with purchase transactions.
+ */
 public class Post {
 
 	private HashMap<String, Item> items;
@@ -24,6 +29,10 @@ public class Post {
 		items = null;
 	}
 
+	/*
+	 * Processes Customer objects
+	 * and passes customer item list to checkout.
+	 */
 	public boolean helpCustomer(Customer customer) {
 		Customer currentCustomer = customer;
 		BigDecimal total = new BigDecimal(0);
@@ -48,6 +57,11 @@ public class Post {
 		return items.containsKey(scanned);
 	}
 
+	/*
+	 * After customer object payment authentication, records sale
+	 * @return	true	Payment authentication succeeded
+	 * @return	false	Payment authentication failed
+	 */
 	private boolean checkout(Customer customer) {
 		String customerName = customer.getName();
 		ArrayList<ItemTuple> itemContainer = customer.getItemContainer();
@@ -62,6 +76,11 @@ public class Post {
 		return true;
 	}
 
+	/*
+	 * Records sales using SalesLog
+	 * @return	true	log written
+	 * @return	false	log failed to write
+	 */
 	private boolean recodSale(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
 		SalesLog log = new SalesLog(storeName, customerName, items, payment);
 

@@ -2,6 +2,10 @@ package payment;
 
 import java.math.BigDecimal;
 
+/**
+ * Abstract class to standardize all payment types
+ *
+ */
 public abstract class Payment {
 
 	private BigDecimal amount;

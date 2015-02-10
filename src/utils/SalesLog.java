@@ -14,10 +14,15 @@ import payment.Payment;
 import store.Inventory;
 import store.Item;
 
+/**
+ * Records sales log once the sales process has been processed and authorized.
+ */
 public class SalesLog {
 
+	// Writer
 	private BufferedWriter writer;
 
+	// Info needed for complete sales.log
 	private String storeName;
 	private String customerName;
 	private ArrayList<ItemTuple> items;
@@ -32,6 +37,13 @@ public class SalesLog {
 		this.date = new Date();
 	}
 
+	/*
+	 * Writes the log as a String first, then sysout that string
+	 * to show that transaction was completed, and then writes to disk
+	 * that same information for more permanent record.
+	 * @return	true	operation succeeded
+	 * @return	false	operation ended in error
+	 */
 	public boolean writeLog() {
 		try {
 			this.writer = new BufferedWriter(new FileWriter("sales.log", true));
@@ -78,6 +90,7 @@ public class SalesLog {
 		return true;
 	}
 
+	/** Testing the SalesLogClass
 	public static void main(String[] args) {
 		ArrayList<ItemTuple> items = new ArrayList<ItemTuple>();
 		items.add(new ItemTuple("0001", 10));
@@ -91,4 +104,5 @@ public class SalesLog {
 		SalesLog log = new SalesLog("MyStore Name", "Test Test", items, payment);
 		log.writeLog();
 	}
+	*/
 }
