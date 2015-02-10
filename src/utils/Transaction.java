@@ -10,6 +10,7 @@ import payment.Cash;
 import payment.Check;
 import payment.CreditCard;
 import post.Customer;
+import store.Inventory;
 
 public class Transaction {
 
@@ -33,7 +34,6 @@ public class Transaction {
 			exception.printStackTrace();
 			return false;
 		}
-
 		Customer newCustomer;
 		String line = " ";
 		while (line != null) {
@@ -46,9 +46,12 @@ public class Transaction {
 				line = bufferedReader.readLine();
 				while (!line.contains("CREDIT") && !line.contains("CHECK") && !line.contains("CASH") && !line.equals("")) {
 					String[] tokens = line.split("[ ]+");
-					ItemTuple item = new ItemTuple(tokens[0], Integer.parseInt(tokens[1]));
-					newCustomer.addItem(item);
-
+					if(!Inventory.getItems().containsKey(tokens[0])){
+						System.out.println("UPC: " + tokens[0] + " not found, item not added.");
+					}else{
+						ItemTuple item = new ItemTuple(tokens[0], Integer.parseInt(tokens[1]));
+						newCustomer.addItem(item);
+					}
 					line = bufferedReader.readLine();
 				}
 

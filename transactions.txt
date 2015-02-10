@@ -1,5 +1,5 @@
 Customer1
-0010     01
+0001     01
 CREDIT   123456
 
 Customer2
@@ -7,7 +7,7 @@ Customer2
 CASH     0005.00
 
 Customer3
-0003     01
+0033     01
 0004     03
 0005     05
 0001     99
