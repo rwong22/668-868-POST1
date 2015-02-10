@@ -39,13 +39,8 @@ public class Post {
 
 		for (Iterator<ItemTuple> iterator = currentCustomer.getItemContainer().iterator(); iterator.hasNext();) {
 			ItemTuple currentItem = (ItemTuple) iterator.next();
+			total = total.add(items.get(currentItem.getUPC()).getPrice());
 
-			if (verifyUPC(currentItem.getUPC())) {
-				total = total.add(items.get(currentItem.getUPC()).getPrice());
-			} else {
-				System.out.println("UPC: " + currentItem.getUPC() + " not found");
-				currentCustomer.getItemContainer().remove(currentItem);
-			}
 		}
 
 		checkout(currentCustomer);
@@ -53,14 +48,15 @@ public class Post {
 		return true;
 	}
 
-	private boolean verifyUPC(String scanned) {
-		return items.containsKey(scanned);
-	}
-
 	/*
+	 * private boolean verifyUPC(String scanned) {
+	 * return items.containsKey(scanned);
+	 * }
+	 * <<<<<<< HEAD
+	 * /*
 	 * After customer object payment authentication, records sale
-	 * @return	true	Payment authentication succeeded
-	 * @return	false	Payment authentication failed
+	 * @return true Payment authentication succeeded
+	 * @return false Payment authentication failed
 	 */
 	private boolean checkout(Customer customer) {
 		String customerName = customer.getName();
@@ -78,8 +74,8 @@ public class Post {
 
 	/*
 	 * Records sales using SalesLog
-	 * @return	true	log written
-	 * @return	false	log failed to write
+	 * @return true log written
+	 * @return false log failed to write
 	 */
 	private boolean recodSale(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
 		SalesLog log = new SalesLog(storeName, customerName, items, payment);

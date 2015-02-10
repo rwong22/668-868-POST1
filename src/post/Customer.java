@@ -33,7 +33,7 @@ public class Customer extends User {
 	public void addItem(ItemTuple item) {
 		itemContainer.add(item);
 	}
-
+	
 	public void addPayment(Payment payment) {
 		this.payment = payment;
 	}
