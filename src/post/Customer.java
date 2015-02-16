@@ -4,7 +4,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import payment.*;
-import utils.*;
 
 public interface Customer extends Remote {
 

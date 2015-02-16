@@ -1,5 +1,7 @@
 package store;
 
+import java.math.BigDecimal;
+
 
 /*
  * File:         [Item]
@@ -18,9 +20,9 @@ public class Item {
 	private String upc;
 	private String description;
 	private String gif;
-	private double price;
+	private BigDecimal price;
 
-	public Item(String upc, String description, String gif, double price) {
+	public Item(String upc, String description, String gif, BigDecimal price) {
 		this.setUpc(upc);
 		this.setDescription(description);
 		this.setGif(gif);
@@ -52,11 +54,11 @@ public class Item {
 
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price2) {
+	public void setPrice(BigDecimal price2) {
 		this.price = price2;
 	}
 }

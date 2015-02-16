@@ -1,5 +1,6 @@
 package post;
 
+import java.math.BigDecimal;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,13 +23,13 @@ public class Post {
     private Store store;
 	private HashMap<String, Item> items;
 	private CustomerImpl currentCustomer;
-	private double total;
+	private BigDecimal total;
 	private LinkedList<CustomerImpl> bufferQueue;
 	
 	public Post(Store store) {
 	    this.store = store;
 	    currentCustomer = null;
-	    total = 0.0;
+	    total = BigDecimal.ZERO;
 	    // Cannot start without catalog.
 	    while (!loadCatalog(store)) {
 	        
@@ -51,7 +52,7 @@ public class Post {
 	// Here comes a new customer!
     private void helpNextCustomer() {
         currentCustomer = new CustomerImpl();
-        total = 0.0;
+        total = BigDecimal.ZERO;
     }
 	
 	// Methods used by GUI
@@ -65,15 +66,15 @@ public class Post {
 	    currentCustomer.setName(name);
 	}
 	
-	public void addItem(String upc, int quantity) {
-	    currentCustomer.addItem(upc, quantity);
-	    total += getItem(upc).getPrice() * quantity;
+	public void addItem(String UPC, int quantity) {
+	    currentCustomer.addItem(UPC, quantity);
+	    total = total.add(getItem(UPC).getPrice().multiply(new BigDecimal(quantity)));
 	}
 	
 	// Not use in this version
 	public void removeItem(int index) {
 	    ItemTuple itemTuple = (ItemTuple) currentCustomer.removeItem(index);
-	    total -= getItem(itemTuple.getUPC()).getPrice() * itemTuple.getQuantity();
+	    total = total.add(getItem(itemTuple.getUPC()).getPrice().multiply(new BigDecimal(itemTuple.getQuantity())));
 	}
 	   
     public Item getItem(String UPC) {
@@ -88,8 +89,12 @@ public class Post {
         return item;
     }
     
-    public double getTotal() {
+    public BigDecimal getTotal() {
         return total;
+    }
+    
+    public double getTotalDouble() {
+        return total.doubleValue();
     }
     
     public void addPayment(Payment payment) {
