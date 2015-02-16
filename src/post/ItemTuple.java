@@ -1,4 +1,4 @@
-package utils;
+package post;
 
 /**
  * Holds an Item UPC and quantity for that Item.

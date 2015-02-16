@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 import payment.Cash;
 import payment.Check;
 import payment.CreditCard;
-import post.Customer;
+import post.CustomerImpl;
+import post.ItemTuple;
 import store.Inventory;
 
 /**
@@ -19,11 +19,11 @@ import store.Inventory;
  */
 public class Transaction {
 
-	private static ArrayList<Customer> customerList;
+	private static ArrayList<CustomerImpl> customerList;
 	private static String filePath = "transactions.txt";
 	private static BufferedReader bufferedReader;
 
-	public static ArrayList<Customer> getTransactions() {
+	public static ArrayList<CustomerImpl> getTransactions() {
 		if (customerList == null) {
 			readTransactions();
 		}
@@ -42,12 +42,12 @@ public class Transaction {
 	private static boolean readTransactions() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filePath));
-			customerList = new ArrayList<Customer>();
+			customerList = new ArrayList<CustomerImpl>();
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 			return false;
 		}
-		Customer newCustomer;
+		CustomerImpl newCustomer;
 		String line = " ";
 		// Split each line into tokens delimited by one or more spaces '[ ]+'
 		while (line != null) {
@@ -55,7 +55,8 @@ public class Transaction {
 				line = bufferedReader.readLine();
 				String name = line;
 
-				newCustomer = new Customer(name);
+				newCustomer = new CustomerImpl();
+				newCustomer.setName(name);
 
 				line = bufferedReader.readLine();
 				while (!line.contains("CREDIT") && !line.contains("CHECK") && !line.contains("CASH") && !line.equals("")) {

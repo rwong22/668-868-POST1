@@ -50,7 +50,7 @@ public class Inventory {
 					tokens[1] = line.substring(9, 29);
 					tokens[2] = line.substring(34, 41);
 
-					items.put(tokens[0], new Item(tokens[0], tokens[1], null, new BigDecimal(tokens[2])));
+					items.put(tokens[0], new Item(tokens[0], tokens[1], null, Double.parseDouble(tokens[2])));
 				}
 
 			} catch (Exception exception) {

@@ -1,4 +1,6 @@
 package store;
+
+
 /*
  * File:         [Item]
  * Created:      [2015/2/3]
@@ -7,17 +9,18 @@ package store;
  * 
  * Changelog:
  * 2015/2/3 Creation of 'Item'
+ * 2015/2/16 price type from BigDecimal to double
  */
-import java.math.BigDecimal;
+
 
 public class Item {
 
 	private String upc;
 	private String description;
 	private String gif;
-	private BigDecimal price;
+	private double price;
 
-	public Item(String upc, String description, String gif, BigDecimal price) {
+	public Item(String upc, String description, String gif, double price) {
 		this.setUpc(upc);
 		this.setDescription(description);
 		this.setGif(gif);
@@ -49,11 +52,11 @@ public class Item {
 
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price2) {
+	public void setPrice(double price2) {
 		this.price = price2;
 	}
 }

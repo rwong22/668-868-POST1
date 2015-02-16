@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-
 import payment.Cash;
 import payment.Check;
 import payment.CreditCard;
 import payment.Payment;
+import post.ItemTuple;
 import store.Inventory;
 import store.Item;
 
@@ -62,12 +62,14 @@ public class SalesLog {
 		salesLog += padRight(customerName, DESCRIPTION_PADDING) + padLeft(date.toString() + '\n', +QUANTITY_PADDING + PRICE_PADDING);
 		for (int i = 0; i < items.size(); i++) {
 			Item currentItem = (Item) Inventory.getItems().get(items.get(i).getUPC());
-			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())));
+//			total = total.add(currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())));
+			total = total.add(new BigDecimal(currentItem.getPrice() * items.get(i).getQuantity()));
 			salesLog += padRight(currentItem.getDescription(), DESCRIPTION_PADDING)
 
 			+ padRight(items.get(i).getQuantity() + " @ " + currentItem.getPrice(), QUANTITY_PADDING)
 
-			+ padLeft("$" + ( currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString() ) + '\n', PRICE_PADDING);
+//			+ padLeft("$" + ( currentItem.getPrice().multiply(new BigDecimal(items.get(i).getQuantity())).toString() ) + '\n', PRICE_PADDING);
+			+ padLeft("$" + ( new BigDecimal(currentItem.getPrice() * items.get(i).getQuantity()).toString() ) + '\n', PRICE_PADDING);
 		}
 		for (int i = 0; i < DESCRIPTION_PADDING + QUANTITY_PADDING + PRICE_PADDING; i++) {
 			salesLog += "-";
