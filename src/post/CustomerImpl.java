@@ -1,31 +1,40 @@
 package post;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import common.Customer;
 import common.ItemTuple;
-import payment.PaymentImpl;
+import common.Payment;
 
 /**
  * Object that corresponds to a user of this POST program.
  * Adds items to a list and uses post to process a sale.
  *
  */
-public class CustomerImpl implements Customer {
+public class CustomerImpl extends UnicastRemoteObject implements Customer {
 
+    /**
+     * default serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
+    
     private String name;
     private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
-	private PaymentImpl payment;
+	private Payment payment;
     
-	public CustomerImpl() {
+	public CustomerImpl() throws RemoteException {
+	    super();
 		this.name = "";
 		itemContainer = new ArrayList<ItemTuple>();
 		payment = null;
 	}
 	
-	public CustomerImpl(String name, ArrayList<ItemTuple> items, PaymentImpl payment) {
-        this.name = name;
+	// Don't use
+	public CustomerImpl(String name, ArrayList<ItemTuple> items, Payment payment) throws RemoteException {
+        super();
+	    this.name = name;
         this.itemContainer = items;
         this.payment = payment;
     }
@@ -59,11 +68,11 @@ public class CustomerImpl implements Customer {
         return itemContainer;
     }
     
-	public void addPayment(PaymentImpl payment) {
+	public void addPayment(Payment payment) {
 		this.payment = payment;
 	}
 
-	public PaymentImpl getPayment() {
+	public Payment getPayment() {
 		return payment;
 	}
 
@@ -79,7 +88,12 @@ public class CustomerImpl implements Customer {
 			customer += itemTuple.getUPC() + '\t' + itemTuple.getQuantity() + '\n';
 		}
 
-		customer += payment.getType().toString() + '\t' + payment.getAmount().toString() + '\n';
+		try {
+            customer += payment.getType().toString() + '\t' + payment.getAmount().toString() + '\n';
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
 		return customer;
 	}

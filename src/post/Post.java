@@ -9,6 +9,8 @@ import payment.PaymentImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import GUI.PostGUI;
+import common.Customer;
 import common.Item;
 import common.ItemTuple;
 import common.PaymentType;
@@ -28,21 +30,23 @@ import payment.CreditCardImpl;
 public class Post {
 
     private Store store;
+    private PostGUI GUI;
 	private HashMap<String, Item> items;
 	private CustomerImpl currentCustomer;
 	private BigDecimal total;
 	private LinkedList<CustomerImpl> bufferQueue;
 	
-	public Post(Store store) {
+	public Post(Store store) throws RemoteException {
 	    this.store = store;
+	    GUI = new PostGUI(this);
 	    currentCustomer = null;
 	    total = BigDecimal.ZERO;
 	    //screen = new Screen();
 	    // Cannot start without catalog.
 	    while (!loadCatalog(store)) {
-	        
+	        break; // For test only!!
 	    }
-	    //screen.setVisible(true);
+	    GUI.open();
 	    helpNextCustomer();
 	}
 	
@@ -58,7 +62,7 @@ public class Post {
 	}
 	
 	// Here comes a new customer!
-    private void helpNextCustomer() {
+    private void helpNextCustomer() throws RemoteException {
         currentCustomer = new CustomerImpl();
         total = BigDecimal.ZERO;
     }
@@ -127,7 +131,7 @@ public class Post {
     }
     
     // When click "Submit Order", i.e. when paying
-    public void checkOut() {
+    public void checkOut() throws RemoteException {
         // The current CustomerImpl object is first put into a queue. Then
         // Post will try to empty the queue from head to tail.
         bufferQueue.add(currentCustomer);
@@ -166,16 +170,30 @@ public class Post {
         }
         try {
             Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
-            Store store = (Store) registry.lookup(Constants.STORE_ID);
-            Post me = new Post(store);
+//            Store store = (Store) registry.lookup(Constants.STORE_ID);
+            Post me = new Post(new TestStore());
             
         } catch (RemoteException ex) {
             System.out.println("*********** " + ex);
             ex.printStackTrace();
-        } catch (NotBoundException ex) {
-            ex.printStackTrace();
+//        } catch (NotBoundException ex) {
+//            ex.printStackTrace();
         }
 	    
 	}
 
+}
+
+class TestStore implements Store {
+
+    @Override
+    public boolean helpCustomer(Customer customer) throws RemoteException {
+        return false;
+    }
+
+    @Override
+    public HashMap<String, Item> getInventory() throws RemoteException {
+        return new HashMap<String, Item>();
+    }
+    
 }

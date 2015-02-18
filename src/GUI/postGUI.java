@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 //import com.jgoodies.forms.layout.FormLayout;
@@ -12,18 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import java.awt.Font;
-
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-
 import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
@@ -33,7 +28,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JInternalFrame;
-
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,10 +38,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.SoftBevelBorder;
+import post.Post;
 
 
-public class postGUI {
+public class PostGUI {
 
+    private Post post;
 	private JFrame frmPost;
 	private JTextField nameTextField;
 	
@@ -62,7 +58,7 @@ public class postGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					postGUI window = new postGUI();
+					PostGUI window = new PostGUI(null);
 					window.frmPost.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,8 +70,13 @@ public class postGUI {
 	/**
 	 * Create the application.
 	 */
-	public postGUI() {
+	public PostGUI(Post post) {
+	    this.post = post;
 		initialize();
+	}
+	
+	public void open() {
+	    frmPost.setVisible(true);
 	}
 
 	/**
