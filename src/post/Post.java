@@ -5,11 +5,18 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import payment.Payment;
-import store.*;
+import payment.PaymentImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import common.Item;
+import common.ItemTuple;
+import common.PaymentType;
+import common.Constants;
+import common.Store;
+import payment.CashImpl;
+import payment.CheckImpl;
+import payment.CreditCardImpl;
 
 
 
@@ -30,22 +37,23 @@ public class Post {
 	    this.store = store;
 	    currentCustomer = null;
 	    total = BigDecimal.ZERO;
+	    //screen = new Screen();
 	    // Cannot start without catalog.
 	    while (!loadCatalog(store)) {
 	        
 	    }
+	    //screen.setVisible(true);
 	    helpNextCustomer();
 	}
 	
 	// Load catalog from server. Return success or fail.
 	private boolean loadCatalog(Store store) {
 	    
-//	    try {
-//	        // Get HashMap items from Inventory.
-//          // Need reference from Store object.
-//	    } catch(RemoteException ex) {
-//	        return false;
-//	    }
+	    try {
+	        items = store.getInventory();
+	    } catch(RemoteException ex) {
+	        return false;
+	    }
 	    return true;
 	}
 	
@@ -66,13 +74,13 @@ public class Post {
 	    currentCustomer.setName(name);
 	}
 	
-	public void addItem(String UPC, int quantity) {
+	public void addItem(String UPC, int quantity) throws RemoteException {
 	    currentCustomer.addItem(UPC, quantity);
 	    total = total.add(getItem(UPC).getPrice().multiply(new BigDecimal(quantity)));
 	}
 	
 	// Not use in this version
-	public void removeItem(int index) {
+	public void removeItem(int index) throws RemoteException {
 	    ItemTuple itemTuple = (ItemTuple) currentCustomer.removeItem(index);
 	    total = total.add(getItem(itemTuple.getUPC()).getPrice().multiply(new BigDecimal(itemTuple.getQuantity())));
 	}
@@ -89,6 +97,7 @@ public class Post {
         return item;
     }
     
+    // Don't use
     public BigDecimal getTotal() {
         return total;
     }
@@ -97,96 +106,67 @@ public class Post {
         return total.doubleValue();
     }
     
-    public void addPayment(Payment payment) {
+    // For CASH and CHECK types, use "" or null as cardNumber
+    public void addPayment(PaymentType paymentType, double amount, String cardNumber) {
+        switch (paymentType) {
+        case CASH:
+            addPayment(new CashImpl(new BigDecimal(amount)));
+            break;
+        case CHECK:
+            addPayment(new CheckImpl(new BigDecimal(amount)));
+            break;
+        case CREDIT:
+            addPayment(new CreditCardImpl(new BigDecimal(amount), cardNumber));
+            break;
+        }
+    }
+    
+    // Don't use
+    public void addPayment(PaymentImpl payment) {
         currentCustomer.addPayment(payment);
     }
     
+    // When click "Submit Order", i.e. when paying
     public void checkOut() {
+        // The current CustomerImpl object is first put into a queue. Then
+        // Post will try to empty the queue from head to tail.
         bufferQueue.add(currentCustomer);
-//        try {
-//            while (!bufferQueue.isEmpty()) {
-//                // Send CustomerImpl objects in bufferQueue to the server.
-//                // Should use getFirst() and removeFirst().
-//            }
-//        } catch(RemoteException ex) {
-//            
-//        }
+        // Before trying to connect Server and empty the queue, Post will
+        // create a new CustomerImpl object. That's because the connecting
+        // may take a while and cashier may start to add items or change
+        // customer's name. These operation must be applied to the new customer.
         helpNextCustomer();
+        // Try to send the CustomerImpl object to the Server. Only remove
+        // the object after Server return a result (no matter true or false).
+        // So that if connect fails, the object is still in the queue.
+        try {
+            while (!bufferQueue.isEmpty()) {
+                CustomerImpl customer = bufferQueue.getFirst();
+                if (store.helpCustomer(customer)) {
+                    printReceipt(customer);
+                } else {
+                    System.out.println("Payment Rejection!!");
+                }
+                bufferQueue.removeFirst();
+            }
+        } catch(RemoteException ex) {
+            // do nothing
+        }
+        
     }
     
-//
-//	public void init() {
-//		items = Inventory.getItems();
-//	    
-//	}
-//
-//	public void cleanup() {
-//		items = null;
-//	}
-//
-//	/*
-//	 * Processes Customer objects
-//	 * and passes customer item list to checkout.
-//	 */
-//	public boolean helpCustomer(Customer customer) {
-//		Customer currentCustomer = customer;
-//		BigDecimal total = new BigDecimal(0);
-//
-//		for (Iterator<ItemTuple> iterator = currentCustomer.getItemContainer().iterator(); iterator.hasNext();) {
-//			ItemTuple currentItem = (ItemTuple) iterator.next();
-//			total = total.add(items.get(currentItem.getUPC()).getPrice());
-//
-//		}
-//
-//		checkout(currentCustomer);
-//
-//		return true;
-//	}
-//
-//	/*
-//	 * private boolean verifyUPC(String scanned) {
-//	 * return items.containsKey(scanned);
-//	 * }
-//	 * <<<<<<< HEAD
-//	 * /*
-//	 * After customer object payment authentication, records sale
-//	 * @return true Payment authentication succeeded
-//	 * @return false Payment authentication failed
-//	 */
-//	private boolean checkout(Customer customer) {
-//		String customerName = customer.getName();
-//		ArrayList<ItemTuple> itemContainer = customer.getItemContainer();
-//		Payment payment = customer.getPayment();
-//
-//		if (Auth.authenticate(payment)) {
-//			recordSale("MyStore", customerName, itemContainer, payment);
-//		} else {
-//			return false;
-//		}
-//
-//		return true;
-//	}
-//
-//	/*
-//	 * Records sales using SalesLog
-//	 * @return true log written
-//	 * @return false log failed to write
-//	 */
-//	private boolean recordSale(String storeName, String customerName, ArrayList<ItemTuple> items, Payment payment) {
-//		SalesLog log = new SalesLog(storeName, customerName, items, payment);
-//
-//		return log.writeLog();
-//	}
+    private void printReceipt(CustomerImpl customer) {
+        System.out.println("Receipt");
+    }
+
 	
 	public static void main(String args[]) throws RemoteException {
 	    if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
         try {
-            Registry rmtReg = LocateRegistry.getRegistry();
-            //Assume the Store class will implements Remote Interface
-            //Assume the string "store" will be rebind to the store object
-            Store store = (Store)rmtReg.lookup("store");
+            Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
+            Store store = (Store) registry.lookup(Constants.STORE_ID);
             Post me = new Post(store);
             
         } catch (RemoteException ex) {
@@ -195,7 +175,7 @@ public class Post {
         } catch (NotBoundException ex) {
             ex.printStackTrace();
         }
-    
+	    
 	}
 
 }

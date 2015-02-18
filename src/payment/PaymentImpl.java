@@ -1,17 +1,19 @@
 package payment;
 
 import java.math.BigDecimal;
+import common.Payment;
+import common.PaymentType;
 
 /**
  * Abstract class to standardize all payment types
  *
  */
-public abstract class Payment {
+public abstract class PaymentImpl implements Payment {
 
 	private BigDecimal amount;
 	private PaymentType type;
 
-	public Payment(BigDecimal amount, PaymentType type) {
+	public PaymentImpl(BigDecimal amount, PaymentType type) {
 		this.amount = amount;
 		this.type = type;
 	}

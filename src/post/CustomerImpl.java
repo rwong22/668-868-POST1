@@ -3,7 +3,9 @@ package post;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import payment.Payment;
+import common.Customer;
+import common.ItemTuple;
+import payment.PaymentImpl;
 
 /**
  * Object that corresponds to a user of this POST program.
@@ -14,7 +16,7 @@ public class CustomerImpl implements Customer {
 
     private String name;
     private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
-	private Payment payment;
+	private PaymentImpl payment;
     
 	public CustomerImpl() {
 		this.name = "";
@@ -22,7 +24,7 @@ public class CustomerImpl implements Customer {
 		payment = null;
 	}
 	
-	public CustomerImpl(String name, ArrayList<ItemTuple> items, Payment payment) {
+	public CustomerImpl(String name, ArrayList<ItemTuple> items, PaymentImpl payment) {
         this.name = name;
         this.itemContainer = items;
         this.payment = payment;
@@ -57,11 +59,11 @@ public class CustomerImpl implements Customer {
         return itemContainer;
     }
     
-	public void addPayment(Payment payment) {
+	public void addPayment(PaymentImpl payment) {
 		this.payment = payment;
 	}
 
-	public Payment getPayment() {
+	public PaymentImpl getPayment() {
 		return payment;
 	}
 

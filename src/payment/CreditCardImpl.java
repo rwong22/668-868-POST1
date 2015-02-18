@@ -1,17 +1,19 @@
 package payment;
 
 import java.math.BigDecimal;
+import common.CreditCard;
+import common.PaymentType;
 
 /**
  * CreditCard payment
  *
  */
-public class CreditCard extends Payment {
+public class CreditCardImpl extends PaymentImpl implements CreditCard {
 
 	private String cardNumber;
 
-	public CreditCard(String cardNumber) {
-		super(new BigDecimal(0), PaymentType.CREDIT);
+	public CreditCardImpl(BigDecimal amount, String cardNumber) {
+		super(amount, PaymentType.CREDIT);
 		this.cardNumber = cardNumber;
 	}
 

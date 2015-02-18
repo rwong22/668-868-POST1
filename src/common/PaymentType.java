@@ -1,4 +1,4 @@
-package payment;
+package common;
 
 /**
  * Accepted payment types

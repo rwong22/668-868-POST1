@@ -1,4 +1,4 @@
-package post;
+package common;
 
 /**
  * Holds an Item UPC and quantity for that Item.
