@@ -39,6 +39,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.SoftBevelBorder;
 import post.Post;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class PostGUI {
@@ -50,7 +52,7 @@ public class PostGUI {
 	private String invoice;
 	private JTextField amountTextField;
 	private String dateTime;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -122,7 +124,7 @@ public class PostGUI {
 		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		JComboBox upcComboBox = new JComboBox();																			// Get list of UPC for drop down
-		upcComboBox.setBounds(54, 27, 73, 20);
+		upcComboBox.setBounds(54, 25, 73, 20);
 		productPanel.add(upcComboBox);
 		
 		JLabel lblQuantity = new JLabel("Quantity");
@@ -133,7 +135,7 @@ public class PostGUI {
 		final JComboBox quantityComboBox = new JComboBox();
 		quantityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
 		quantityComboBox.setSelectedIndex(0);
-		quantityComboBox.setBounds(223, 27, 40, 20);
+		quantityComboBox.setBounds(223, 25, 40, 20);
 		productPanel.add(quantityComboBox);
 		
 		JButton btnAdd = new JButton("Add");																				// What happens after the add button is pressed? get item? get unit price? get extened price?	calculate total? 
@@ -144,7 +146,7 @@ public class PostGUI {
 				txtInvoice.setText(invoice);
 			}
 		});
-		btnAdd.setBounds(80, 66, 89, 23);
+		btnAdd.setBounds(174, 66, 89, 23);
 		productPanel.add(btnAdd);
 		
 
@@ -169,26 +171,38 @@ public class PostGUI {
 		customerPanel.setLayout(null);
 		
 		JLabel lblCustomerName = new JLabel("Customer Name");
-		lblCustomerName.setBounds(10, 21, 130, 20);
+		lblCustomerName.setBounds(10, 25, 130, 20);
 		customerPanel.add(lblCustomerName);
 		lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		nameTextField = new JTextField();
-		nameTextField.setText("Name");																						
-		nameTextField.setBounds(154, 23, 131, 20);
-		customerPanel.add(nameTextField);
-		nameTextField.setColumns(10);
-		
-		JButton btnEnterName = new JButton("Enter");																		// if nameTextField is "admin" -> enable rest of the fields
+		final JButton btnEnterName = new JButton("Enter");																		// if nameTextField is "admin" -> enable rest of the fields
+		btnEnterName.setEnabled(false);
 		btnEnterName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
 				lblTimeStamp.setText(dateTime);																				// Update the date and time after a name is entered
 			}
 		});
-		btnEnterName.setBounds(103, 66, 86, 23);
+		btnEnterName.setBounds(199, 66, 86, 23);
 		customerPanel.add(btnEnterName);
 		
+		nameTextField = new JTextField();
+		nameTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {		
+				if(!nameTextField.getText().trim().equals("")) {		// if the name text field is not empty, enable Enter button.
+					btnEnterName.setEnabled(true);
+				}
+				else {													// else the name text field is empty, disable Enter button
+					btnEnterName.setEnabled(false);						
+				}
+			}
+		});
+		nameTextField.setText("");				
+		nameTextField.setBounds(154, 25, 131, 20);
+		customerPanel.add(nameTextField);
+		nameTextField.setColumns(10);
+			
 		JPanel totalPanel = new JPanel();
 		totalPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		totalPanel.setBounds(384, 400, 230, 45);
@@ -232,7 +246,7 @@ public class PostGUI {
 		paymentTypeComboBox.setModel(new DefaultComboBoxModel(paymentTypeArray));
 		//					paymentTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CASH", "CHECK", "CREDIT"}));
 		paymentTypeComboBox.setSelectedIndex(0);
-		paymentTypeComboBox.setBounds(145, 24, 73, 20);
+		paymentTypeComboBox.setBounds(145, 22, 73, 20);
 		paymentPanel.add(paymentTypeComboBox);
 		
 		JLabel amountLabel = new JLabel("Amount");
@@ -240,14 +254,20 @@ public class PostGUI {
 		amountLabel.setBounds(243, 22, 73, 20);
 		paymentPanel.add(amountLabel);
 		
-		amountTextField = new JTextField();																					// Check if valid amount entered
-		amountTextField.setBounds(326, 24, 161, 20);
-		paymentPanel.add(amountTextField);
-		amountTextField.setColumns(10);
+		JFormattedTextField paymentFormattedTextField = new JFormattedTextField();
+		paymentFormattedTextField.setBounds(323, 22, 164, 20);
+		paymentPanel.add(paymentFormattedTextField);
+		
+//		amountTextField = new JTextField();																					// Check if valid amount entered
+//		amountTextField.setBounds(326, 24, 161, 20);
+//		paymentPanel.add(amountTextField);
+//		amountTextField.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Submit Order");																			// check everything before submission? what is submitted? a transaction object?
 		btnSubmit.setBounds(373, 61, 114, 23);																						// clears everything at the end of transaction?
 		paymentPanel.add(btnSubmit);
+		
+
 
 	}
 }
