@@ -313,12 +313,17 @@ public class PostGUI {
                     String cardNumber = paymentFormattedTextField.getText().trim();
                     post.addCreditPayment(post.getTotalDouble(), cardNumber);                   
                 } else {
-                    // Input Check!!
-                    double amount = Double.parseDouble(paymentFormattedTextField.getText().trim());
-                    if (paymentTypeComboBox.getSelectedItem().equals("Cash")) {
-                        post.addCashPayment(amount);
-                    } else {
-                        post.addCheckPayment(amount);
+                    // If input isn't a valid number, disable button, don't checkout.
+                    try {
+                        double amount = Double.parseDouble(paymentFormattedTextField.getText().trim());
+                        if (paymentTypeComboBox.getSelectedItem().equals("Cash")) {
+                            post.addCashPayment(amount);
+                        } else {
+                            post.addCheckPayment(amount);
+                        }
+                    } catch(NumberFormatException e1) {
+                        btnSubmit.setEnabled(false);
+                        return;
                     }
                 }
 				
@@ -330,7 +335,7 @@ public class PostGUI {
 		        paymentFormattedTextField.setText("");
 		        lblTotalCost.setText("$ 0.00");
 		        lblInvoice.setText("Invoice");
-		        amountCreditcardLabel.setText("Cash Amount $");
+                amountCreditcardLabel.setText("Cash Amount $");
 		        upcComboBox.setSelectedIndex(0);
 		        quantityComboBox.setSelectedIndex(0);
 		        paymentTypeComboBox.setSelectedIndex(0);

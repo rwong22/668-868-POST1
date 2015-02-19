@@ -102,7 +102,6 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
 		try {
             customer += payment.getType().toString() + '\t' + payment.getAmount().toString() + '\n';
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
