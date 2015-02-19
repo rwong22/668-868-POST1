@@ -108,7 +108,7 @@ public class PostGUI {
         lblTotal.setBounds(10, 11, 43, 23);
         totalPanel.add(lblTotal);
         
-        JLabel lblTotalCost = new JLabel("$ 0.00");                                                                 // where and how it total calculated?
+        final JLabel lblTotalCost = new JLabel("$ 0.00");                                                                 // where and how it total calculated?
         lblTotalCost.setFont(new Font("Tahoma", Font.BOLD, 16));
         lblTotalCost.setHorizontalAlignment(SwingConstants.TRAILING);
         lblTotalCost.setBounds(76, 11, 144, 23);
@@ -148,7 +148,7 @@ public class PostGUI {
 		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		// !!! UPC list - done
-		JComboBox<String> upcComboBox = new JComboBox<String>();																			// Get list of UPC for drop down
+		final JComboBox<String> upcComboBox = new JComboBox<String>();																			// Get list of UPC for drop down
 		upcComboBox.setModel(new DefaultComboBoxModel(post.getUPCList().toArray()));
 		upcComboBox.setSelectedIndex(0);
 		upcComboBox.setBounds(54, 25, 73, 20);
