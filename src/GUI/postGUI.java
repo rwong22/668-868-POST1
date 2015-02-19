@@ -29,6 +29,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JInternalFrame;
 import java.awt.BorderLayout;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.border.BevelBorder;
@@ -38,6 +39,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.SoftBevelBorder;
+import common.Item;
 import post.Post;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -54,6 +56,7 @@ public class PostGUI {
 	private String dateTime;
 	
 	private JFormattedTextField paymentFormattedTextField;
+	
 	
 	/**
 	 * Launch the application.
@@ -93,6 +96,25 @@ public class PostGUI {
 		frmPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPost.getContentPane().setLayout(null);
 		
+		// -----------total panel------------
+		JPanel totalPanel = new JPanel();
+        totalPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        totalPanel.setBounds(384, 400, 230, 45);
+        frmPost.getContentPane().add(totalPanel);
+        totalPanel.setLayout(null);
+        
+        JLabel lblTotal = new JLabel("Total");                                                                              
+        lblTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
+        lblTotal.setBounds(10, 11, 43, 23);
+        totalPanel.add(lblTotal);
+        
+        JLabel lblTotalCost = new JLabel("$ 0.00");                                                                 // where and how it total calculated?
+        lblTotalCost.setFont(new Font("Tahoma", Font.BOLD, 16));
+        lblTotalCost.setHorizontalAlignment(SwingConstants.TRAILING);
+        lblTotalCost.setBounds(76, 11, 144, 23);
+        totalPanel.add(lblTotalCost);
+        
+		// ----------product panel------------
 		JPanel productPanel = new JPanel();
 		productPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		productPanel.setBounds(341, 11, 273, 100);
@@ -125,7 +147,10 @@ public class PostGUI {
 		productPanel.add(lblUpc);
 		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		JComboBox upcComboBox = new JComboBox();																			// Get list of UPC for drop down
+		// !!! UPC list - done
+		JComboBox<String> upcComboBox = new JComboBox<String>();																			// Get list of UPC for drop down
+		upcComboBox.setModel(new DefaultComboBoxModel(post.getUPCList().toArray()));
+		upcComboBox.setSelectedIndex(0);
 		upcComboBox.setBounds(54, 25, 73, 20);
 		productPanel.add(upcComboBox);
 		
@@ -134,31 +159,47 @@ public class PostGUI {
 		lblQuantity.setBounds(137, 25, 76, 20);
 		productPanel.add(lblQuantity);
 
-		final JComboBox quantityComboBox = new JComboBox();
+		final JComboBox<String> quantityComboBox = new JComboBox<String>();
 		quantityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
 		quantityComboBox.setSelectedIndex(0);
 		quantityComboBox.setBounds(223, 25, 40, 20);
 		productPanel.add(quantityComboBox);
 		
+		// !!! Button - Add - done
 		JButton btnAdd = new JButton("Add");																				// What happens after the add button is pressed? get item? get unit price? get extened price?	calculate total? 
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    String UPC = (String) upcComboBox.getSelectedItem();
+			    Item item = post.getItem(UPC);
+			    int quantity = Integer.parseInt((String) quantityComboBox.getSelectedItem());
+			    post.addItem(UPC, quantity);
+			    
 				invoice = txtInvoice.getText();
-				invoice = invoice + "\n" + "ANOTHER TEST \t\t" + (Integer.parseInt((String) quantityComboBox.getSelectedItem()) );		// add to invoice text area
+				String itemInfo = "Can not read item information!";
+                try {
+                    double price = item.getPrice().doubleValue();
+                    itemInfo = String.format("\n%20s\t\t%2s\t%6.2f\t%6.2f", item.getDescription(),
+                                  (String) quantityComboBox.getSelectedItem(),
+                                  price, price * quantity);       // add to invoice text area
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+                invoice = invoice + itemInfo;
 				txtInvoice.setText(invoice);
+				
+				lblTotalCost.setText(String.format("$%10.2f", post.getTotalDouble()));
 			}
 		});
 		btnAdd.setBounds(174, 66, 89, 23);
 		productPanel.add(btnAdd);
 		
 
-		
+		// ------------time stamp panel-----------
 		JPanel timeStampPanel = new JPanel();
 		timeStampPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		timeStampPanel.setBounds(10, 400, 167, 45);
 		frmPost.getContentPane().add(timeStampPanel);
 		timeStampPanel.setLayout(null);
-		
 		
 		dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());					// time and date
 		final JLabel lblTimeStamp = new JLabel(dateTime);
@@ -166,6 +207,7 @@ public class PostGUI {
 		lblTimeStamp.setBounds(10, 11, 153, 23);
 		timeStampPanel.add(lblTimeStamp);
 		
+		// ------------customer panel--------------
 		JPanel customerPanel = new JPanel();
 		customerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		customerPanel.setBounds(10, 11, 295, 100);
@@ -177,10 +219,12 @@ public class PostGUI {
 		customerPanel.add(lblCustomerName);
 		lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
+		// !!! Button - Enter - done
 		final JButton btnEnterName = new JButton("Enter");																		// if nameTextField is "admin" -> enable rest of the fields???
 		btnEnterName.setEnabled(false);
 		btnEnterName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    post.setCustomerName(nameTextField.getText().trim());
 				dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
 				lblTimeStamp.setText(dateTime);																				// Update the date and time after a name is entered
 				lblInvoice.setText("Invoice   for   " + nameTextField.getText().trim());					// call a setCustomerName function of some sort?
@@ -207,25 +251,7 @@ public class PostGUI {
 		customerPanel.add(nameTextField);
 		nameTextField.setColumns(10);
 			
-		JPanel totalPanel = new JPanel();
-		totalPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		totalPanel.setBounds(384, 400, 230, 45);
-		frmPost.getContentPane().add(totalPanel);
-		totalPanel.setLayout(null);
-		
-		JLabel lblTotal = new JLabel("Total");																				
-		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotal.setBounds(10, 11, 43, 23);
-		totalPanel.add(lblTotal);
-		
-		JLabel lblTotalCost = new JLabel("$ 000000000.00");																	// where and how it total calculated?
-		lblTotalCost.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalCost.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblTotalCost.setBounds(76, 11, 144, 23);
-		totalPanel.add(lblTotalCost);
-		
-
-		
+		// -------------payment panel------------
 		JPanel paymentPanel = new JPanel();
 		paymentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		paymentPanel.setBounds(71, 456, 543, 95);
@@ -275,12 +301,42 @@ public class PostGUI {
 		paymentPanel.add(paymentTypeComboBox);
 
 		
-		
+		// !!! Button - Submit - Need modify
 		final JButton btnSubmit = new JButton("Submit Order");																			// check everything before submission? what is submitted? a transaction object?
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
 				lblTimeStamp.setText(dateTime);											// Update the date and time after "Submit Order" is pressed
+				post.setPurchaseTime(dateTime);
+				
+				if(paymentTypeComboBox.getSelectedItem().equals("Credit")) {              // Cash was selected from the drop down
+                    String cardNumber = paymentFormattedTextField.getText().trim();
+                    post.addCreditPayment(post.getTotalDouble(), cardNumber);                   
+                } else {
+                    // Input Check!!
+                    double amount = Double.parseDouble(paymentFormattedTextField.getText().trim());
+                    if (paymentTypeComboBox.getSelectedItem().equals("Cash")) {
+                        post.addCashPayment(amount);
+                    } else {
+                        post.addCheckPayment(amount);
+                    }
+                }
+				
+				post.checkOut();
+				
+				// Reset GUI
+				nameTextField.setText("");
+				txtInvoice.setText("Item\t\t\tQuantity\tUnit Price\tExtended Price\r\n");
+		        paymentFormattedTextField.setText("");
+		        lblTotalCost.setText("$ 0.00");
+		        lblInvoice.setText("Invoice");
+		        amountCreditcardLabel.setText("Cash Amount $");
+		        upcComboBox.setSelectedIndex(0);
+		        quantityComboBox.setSelectedIndex(0);
+		        paymentTypeComboBox.setSelectedIndex(0);
+		        btnEnterName.setEnabled(false);
+		        btnSubmit.setEnabled(false);
+		        paymentFormattedTextField.setEnabled(false);
 			}
 		});
 		btnSubmit.setEnabled(false);
@@ -303,8 +359,6 @@ public class PostGUI {
 		paymentFormattedTextField.setBounds(369, 24, 164, 20);
 		paymentPanel.add(paymentFormattedTextField);
 
-		
-
-
 	}
+	
 }

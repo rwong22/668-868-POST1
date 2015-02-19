@@ -23,12 +23,14 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
     private String name;
     private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
 	private Payment payment;
+	private String purchaseTime;
     
 	public CustomerImpl() throws RemoteException {
 	    super();
 		this.name = "";
 		itemContainer = new ArrayList<ItemTuple>();
 		payment = null;
+		purchaseTime = "";
 	}
 	
 	// Don't use
@@ -37,6 +39,7 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
 	    this.name = name;
         this.itemContainer = items;
         this.payment = payment;
+        purchaseTime = "";
     }
 	
 	public String getName() {
@@ -75,6 +78,14 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
 	public Payment getPayment() {
 		return payment;
 	}
+	
+	public String getPurchaseTime() {
+	    return purchaseTime;
+	}
+	
+	public void setPurchaseTime(String dateTime) {
+        purchaseTime = dateTime;
+    }
 
 	/*
 	 * For debugging

@@ -28,6 +28,25 @@ import payment.CreditCardImpl;
  * with purchase transactions.
  */
 public class Post {
+    
+    public static void main(String args[]) throws RemoteException {
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
+//            Store store = (Store) registry.lookup(Constants.STORE_ID);
+            Store store = new TestStore(); // For test only.
+            Post me = new Post(store);
+            
+        } catch (RemoteException ex) {
+            System.out.println("*********** " + ex);
+            ex.printStackTrace();
+//        } catch (NotBoundException ex) {
+//            ex.printStackTrace();
+        }
+        
+    }
 
     private Store store;
     private PostGUI GUI;
@@ -38,14 +57,14 @@ public class Post {
 	
 	public Post(Store store) throws RemoteException {
 	    this.store = store;
-	    GUI = new PostGUI(this);
 	    currentCustomer = null;
-	    total = BigDecimal.ZERO;
-	    //screen = new Screen();
+	    bufferQueue = new LinkedList<CustomerImpl>();
+	    total = new BigDecimal(0);
 	    // Cannot start without catalog.
 	    while (!loadCatalog(store)) {
 	        break; // For test only!!
 	    }
+	    GUI = new PostGUI(this);
 	    GUI.open();
 	    helpNextCustomer();
 	}
@@ -62,12 +81,16 @@ public class Post {
 	}
 	
 	// Here comes a new customer!
-    private void helpNextCustomer() throws RemoteException {
-        currentCustomer = new CustomerImpl();
+    private void helpNextCustomer() {
+        try {
+            currentCustomer = new CustomerImpl();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         total = BigDecimal.ZERO;
     }
 	
-	// Methods used by GUI
+	// ----------Methods used by GUI---------
 	
 	public ArrayList<String> getUPCList() {
 	    if (items == null) return new ArrayList<String>();
@@ -78,15 +101,23 @@ public class Post {
 	    currentCustomer.setName(name);
 	}
 	
-	public void addItem(String UPC, int quantity) throws RemoteException {
+	public void addItem(String UPC, int quantity) {
 	    currentCustomer.addItem(UPC, quantity);
-	    total = total.add(getItem(UPC).getPrice().multiply(new BigDecimal(quantity)));
+	    try {
+            total = total.add(getItem(UPC).getPrice().multiply(new BigDecimal(quantity)));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 	}
 	
-	// Not use in this version
-	public void removeItem(int index) throws RemoteException {
+	@Deprecated // Not use in this version
+	public void removeItem(int index) {
 	    ItemTuple itemTuple = (ItemTuple) currentCustomer.removeItem(index);
-	    total = total.add(getItem(itemTuple.getUPC()).getPrice().multiply(new BigDecimal(itemTuple.getQuantity())));
+	    try {
+            total = total.add(getItem(itemTuple.getUPC()).getPrice().multiply(new BigDecimal(itemTuple.getQuantity())));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 	}
 	   
     public Item getItem(String UPC) {
@@ -101,7 +132,7 @@ public class Post {
         return item;
     }
     
-    // Don't use
+    @Deprecated
     public BigDecimal getTotal() {
         return total;
     }
@@ -110,7 +141,12 @@ public class Post {
         return total.doubleValue();
     }
     
+    public void setPurchaseTime(String dateTime) {
+        currentCustomer.setPurchaseTime(dateTime);
+    }
+    
     // For CASH and CHECK types, use "" or null as cardNumber
+    @Deprecated
     public void addPayment(PaymentType paymentType, double amount, String cardNumber) {
         switch (paymentType) {
         case CASH:
@@ -125,13 +161,24 @@ public class Post {
         }
     }
     
-    // Don't use
-    public void addPayment(PaymentImpl payment) {
+    public void addCashPayment(double amount) {
+        addPayment(new CashImpl(new BigDecimal(amount)));
+    }
+    
+    public void addCheckPayment(double amount) {
+        addPayment(new CheckImpl(new BigDecimal(amount)));
+    }
+    
+    public void addCreditPayment(double amount, String cardNumber) {
+        addPayment(new CreditCardImpl(new BigDecimal(amount), cardNumber));
+    }
+    
+    private void addPayment(PaymentImpl payment) {
         currentCustomer.addPayment(payment);
     }
     
     // When click "Submit Order", i.e. when paying
-    public void checkOut() throws RemoteException {
+    public void checkOut() {
         // The current CustomerImpl object is first put into a queue. Then
         // Post will try to empty the queue from head to tail.
         bufferQueue.add(currentCustomer);
@@ -163,27 +210,9 @@ public class Post {
         System.out.println("Receipt");
     }
 
-	
-	public static void main(String args[]) throws RemoteException {
-	    if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
-        try {
-            Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
-//            Store store = (Store) registry.lookup(Constants.STORE_ID);
-            Post me = new Post(new TestStore());
-            
-        } catch (RemoteException ex) {
-            System.out.println("*********** " + ex);
-            ex.printStackTrace();
-//        } catch (NotBoundException ex) {
-//            ex.printStackTrace();
-        }
-	    
-	}
-
 }
 
+// These two classes will be remove after test
 class TestStore implements Store {
 
     @Override
@@ -193,7 +222,35 @@ class TestStore implements Store {
 
     @Override
     public HashMap<String, Item> getInventory() throws RemoteException {
-        return new HashMap<String, Item>();
+        HashMap<String, Item> fakeCatalog = new HashMap<String, Item>();
+        for (int i = 0; i < 10; i++)
+        fakeCatalog.put("00" + i, new TestItem("00" + i));
+        return fakeCatalog;
+    }
+    
+}
+
+class TestItem implements Item {
+    
+    private String UPC;
+    
+    public TestItem(String UPC) {
+        this.UPC = UPC;
+    }
+
+    @Override
+    public BigDecimal getPrice() throws RemoteException {
+        return new BigDecimal(123.4567);
+    }
+
+    @Override
+    public String getDescription() throws RemoteException {
+        return "A Description of " + UPC;
+    }
+
+    @Override
+    public String getUPC() throws RemoteException {
+        return UPC;
     }
     
 }
