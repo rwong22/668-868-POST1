@@ -53,6 +53,8 @@ public class PostGUI {
 	private JTextField amountTextField;
 	private String dateTime;
 	
+	private JFormattedTextField paymentFormattedTextField;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +103,7 @@ public class PostGUI {
 		invoicePane.setBounds(10, 122, 604, 267);
 		frmPost.getContentPane().add(invoicePane);
 		
-		JLabel lblInvoice = new JLabel("Invoice");
+		final JLabel lblInvoice = new JLabel("Invoice");
 		invoicePane.setColumnHeaderView(lblInvoice);
 		lblInvoice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
@@ -175,12 +177,14 @@ public class PostGUI {
 		customerPanel.add(lblCustomerName);
 		lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		final JButton btnEnterName = new JButton("Enter");																		// if nameTextField is "admin" -> enable rest of the fields
+		final JButton btnEnterName = new JButton("Enter");																		// if nameTextField is "admin" -> enable rest of the fields???
 		btnEnterName.setEnabled(false);
 		btnEnterName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
 				lblTimeStamp.setText(dateTime);																				// Update the date and time after a name is entered
+				lblInvoice.setText("Invoice   for   " + nameTextField.getText().trim());					// call a setCustomerName function of some sort?
+				paymentFormattedTextField.setEnabled(true);													// enables payment text field after "Enter" name button is pressed
 			}
 		});
 		btnEnterName.setBounds(199, 66, 86, 23);
@@ -190,11 +194,11 @@ public class PostGUI {
 		nameTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {		
-				if(!nameTextField.getText().trim().equals("")) {		// if the name text field is not empty, enable Enter button.
+				if(!nameTextField.getText().trim().equals("")) {		// if the name text field is not empty, enable "Enter" name button 
 					btnEnterName.setEnabled(true);
 				}
-				else {													// else the name text field is empty, disable Enter button
-					btnEnterName.setEnabled(false);						
+				else {													// else the name text field is empty, disable "Enter" name button 
+					btnEnterName.setEnabled(false);		
 				}
 			}
 		});
@@ -224,7 +228,7 @@ public class PostGUI {
 		
 		JPanel paymentPanel = new JPanel();
 		paymentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		paymentPanel.setBounds(117, 456, 497, 95);
+		paymentPanel.setBounds(71, 456, 543, 95);
 		frmPost.getContentPane().add(paymentPanel);
 		paymentPanel.setLayout(null);
 		
@@ -236,36 +240,69 @@ public class PostGUI {
 		
 		JLabel paymentTypeLabel = new JLabel("Payment Type");
 		paymentTypeLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		paymentTypeLabel.setBounds(10, 22, 132, 20);
+		paymentTypeLabel.setBounds(10, 22, 125, 20);
 		paymentPanel.add(paymentTypeLabel);
 		
-		// Temporary array to hold payment types																			// pass in payment types for dropdown?
+
+		final JLabel amountCreditcardLabel = new JLabel("Cash Amount $");
+		amountCreditcardLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		amountCreditcardLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		amountCreditcardLabel.setBounds(228, 22, 133, 20);
+		paymentPanel.add(amountCreditcardLabel);
+		
+		
+		// Temporary array to hold payment types																			// pass in payment types for drop down?
 		String[] paymentTypeArray = {"Cash","Check","Credit"};
 		
-		JComboBox paymentTypeComboBox = new JComboBox();
+		final JComboBox paymentTypeComboBox = new JComboBox();
+		paymentTypeComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {								// Updates amountCreditcardLabel to which payment type was selected
+				if(paymentTypeComboBox.getSelectedItem().equals("Cash")) {				// Cash was selected from the drop down
+					amountCreditcardLabel.setText("Cash Amount $");						
+				}
+				else if(paymentTypeComboBox.getSelectedItem().equals("Check")) {		// Check was selected from the drop down
+					amountCreditcardLabel.setText("Check Amount $");
+				}
+				else {																	// Credit was selected from the drop down
+					amountCreditcardLabel.setText("Credit Card #");
+				}
+			}
+		});
 		paymentTypeComboBox.setModel(new DefaultComboBoxModel(paymentTypeArray));
 		//					paymentTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CASH", "CHECK", "CREDIT"}));
 		paymentTypeComboBox.setSelectedIndex(0);
-		paymentTypeComboBox.setBounds(145, 22, 73, 20);
+		paymentTypeComboBox.setBounds(140, 24, 73, 20);
 		paymentPanel.add(paymentTypeComboBox);
+
 		
-		JLabel amountLabel = new JLabel("Amount");
-		amountLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		amountLabel.setBounds(243, 22, 73, 20);
-		paymentPanel.add(amountLabel);
 		
-		JFormattedTextField paymentFormattedTextField = new JFormattedTextField();
-		paymentFormattedTextField.setBounds(323, 22, 164, 20);
-		paymentPanel.add(paymentFormattedTextField);
-		
-//		amountTextField = new JTextField();																					// Check if valid amount entered
-//		amountTextField.setBounds(326, 24, 161, 20);
-//		paymentPanel.add(amountTextField);
-//		amountTextField.setColumns(10);
-		
-		JButton btnSubmit = new JButton("Submit Order");																			// check everything before submission? what is submitted? a transaction object?
-		btnSubmit.setBounds(373, 61, 114, 23);																						// clears everything at the end of transaction?
+		final JButton btnSubmit = new JButton("Submit Order");																			// check everything before submission? what is submitted? a transaction object?
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
+				lblTimeStamp.setText(dateTime);											// Update the date and time after "Submit Order" is pressed
+			}
+		});
+		btnSubmit.setEnabled(false);
+		btnSubmit.setBounds(419, 55, 114, 23);																						// clears everything at the end of transaction?
 		paymentPanel.add(btnSubmit);
+		
+		paymentFormattedTextField = new JFormattedTextField();							// Still need to check for valid amount input or credit card number depending on which payment type was selected
+		paymentFormattedTextField.setEnabled(false);
+		paymentFormattedTextField.addKeyListener(new KeyAdapter() {
+			@Override																	
+			public void keyReleased(KeyEvent e) {										
+				if(!paymentFormattedTextField.getText().trim().equals("")) {			// if the payment text field is not empty, enable submit button.  
+					btnSubmit.setEnabled(true);
+				}
+				else {																	// else the payment text field is empty, disable submit button
+					btnSubmit.setEnabled(false);
+				}
+			}
+		});
+		paymentFormattedTextField.setBounds(369, 24, 164, 20);
+		paymentPanel.add(paymentFormattedTextField);
+
 		
 
 
