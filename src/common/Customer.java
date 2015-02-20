@@ -1,5 +1,6 @@
 package common;
 
+import java.math.BigDecimal;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public interface Customer extends Remote {
      * @throws RemoteException
      */
     public Payment getPayment() throws RemoteException;
+    
+    public PaymentType getPaymentType() throws RemoteException;
+    public BigDecimal getPaymentAmount() throws RemoteException;
+    public String getCardNumber() throws RemoteException;
 
     /**
      * @return The customer name

@@ -1,12 +1,15 @@
 package post;
 
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
+import common.CreditCard;
 import common.Customer;
 import common.ItemTuple;
 import common.Payment;
+import common.PaymentType;
 
 /**
  * Object that corresponds to a user of this POST program.
@@ -24,6 +27,9 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
     private ArrayList<ItemTuple> itemContainer = new ArrayList<ItemTuple>();
 	private Payment payment;
 	private String purchaseTime;
+	private PaymentType paymentType;
+	private BigDecimal paymentAmount;
+	private String cardNumber;
     
 	public CustomerImpl() throws RemoteException {
 	    super();
@@ -31,6 +37,9 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
 		itemContainer = new ArrayList<ItemTuple>();
 		payment = null;
 		purchaseTime = "";
+		paymentType = PaymentType.CASH;
+	    paymentAmount = BigDecimal.ZERO;
+	    cardNumber = "";
 	}
 	
 	// Don't use
@@ -73,6 +82,17 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
     
 	public void addPayment(Payment payment) {
 		this.payment = payment;
+		try {
+            paymentType = payment.getType();
+            paymentAmount = payment.getAmount();
+            if (paymentType == PaymentType.CREDIT)
+                cardNumber = ((CreditCard) payment).getCardNumber();
+        } catch (RemoteException e) {
+            System.out.println("Fail to add a payment!");
+            e.printStackTrace();
+        }
+		
+		
 	}
 
 	public Payment getPayment() {
@@ -87,26 +107,39 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
         purchaseTime = dateTime;
     }
 
-	/*
-	 * For debugging
-	 */
-	@Override
-	public String toString() {
-		String customer = getName() + '\n';
+    @Override
+    public PaymentType getPaymentType() throws RemoteException {
+        return paymentType;
+    }
 
-		for (Iterator<ItemTuple> iterator = itemContainer.iterator(); iterator.hasNext();) {
-			ItemTuple itemTuple = (ItemTuple) iterator.next();
-			customer += itemTuple.getUPC() + '\t' + itemTuple.getQuantity() + '\n';
-		}
+    @Override
+    public BigDecimal getPaymentAmount() throws RemoteException {
+        return paymentAmount;
+    }
 
-		try {
+    @Override
+    public String getCardNumber() throws RemoteException {
+        return cardNumber;
+    }
+
+    /*
+     * For debugging
+     */
+    @Override
+    public String toString() {
+        String customer = getName() + '\n';
+
+        for (Iterator<ItemTuple> iterator = itemContainer.iterator(); iterator.hasNext();) {
+            ItemTuple itemTuple = (ItemTuple) iterator.next();
+            customer += itemTuple.getUPC() + '\t' + itemTuple.getQuantity() + '\n';
+        }
+
+        try {
             customer += payment.getType().toString() + '\t' + payment.getAmount().toString() + '\n';
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
-		return customer;
-	}
-
-    
+        return customer;
+    }
 }

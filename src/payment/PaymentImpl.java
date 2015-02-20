@@ -1,5 +1,6 @@
 package payment;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import common.Payment;
 import common.PaymentType;
@@ -8,9 +9,14 @@ import common.PaymentType;
  * Abstract class to standardize all payment types
  *
  */
-public abstract class PaymentImpl implements Payment {
+public abstract class PaymentImpl implements Payment, Serializable {
 
-	private BigDecimal amount;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    private BigDecimal amount;
 	private PaymentType type;
 
 	public PaymentImpl(BigDecimal amount, PaymentType type) {
