@@ -20,6 +20,7 @@ import common.Store;
 import payment.CashImpl;
 import payment.CheckImpl;
 import payment.CreditCardImpl;
+import services.AuthenticateService;
 
 
 
@@ -78,8 +79,8 @@ public class Post {
         items = new HashMap<String, Item>();
         try {
 //            items = store.getInventory();
-            HashMap<String, Item> inventory = (HashMap<String, Item>) store.getInventory().clone();
-            for (Item item : inventory.values()) {
+            HashMap<String, Item> catalog = (HashMap<String, Item>) store.getCatalog().clone();
+            for (Item item : catalog.values()) {
                 String UPC = item.getUPC();
                 items.put(UPC, new ItemImpl(UPC, item.getDescription(), item.getPrice()));
             }
@@ -142,7 +143,7 @@ public class Post {
         // If can't find item, try search in the store inventory.
         if (item == null) {
             try {
-                Item rmiItem = store.getInventory().get(UPC);
+                Item rmiItem = store.getCatalog().get(UPC);
                 if (rmiItem != null) {
                     item = new ItemImpl(UPC, rmiItem.getDescription(), rmiItem.getPrice());
                     items.put(UPC, item);
@@ -217,6 +218,14 @@ public class Post {
     }
     
     /*
+     * Authenticate the payment of current customer.
+     */
+    public boolean authenticate() {
+        if (currentCustomer.getPayment() == null) return false;
+        return AuthenticateService.authenticate(currentCustomer.getPayment());
+    }
+    
+    /*
      * End service for current customer. Send Customer object to the Server.
      * And start service for next customer.
      */
@@ -241,7 +250,7 @@ public class Post {
         try {
             while (!bufferQueue.isEmpty()) {
                 CustomerImpl customer = bufferQueue.getFirst();
-                if (store.processCustomer(customer)) {
+                if (store.recordSale(customer)) {
                     printReceipt(customer);
                 } else {
                     System.out.println("Payment Rejection!!");
@@ -264,7 +273,7 @@ public class Post {
 class TestStore implements Store {
 
     @Override
-    public boolean processCustomer(Customer customer) throws RemoteException {
+    public boolean recordSale(Customer customer) throws RemoteException {
         if (customer.getPayment().getType() == PaymentType.CASH)
             return true;
         else
@@ -274,7 +283,7 @@ class TestStore implements Store {
     }
 
     @Override
-    public HashMap<String, Item> getInventory() throws RemoteException {
+    public HashMap<String, Item> getCatalog() throws RemoteException {
         HashMap<String, Item> fakeCatalog = new HashMap<String, Item>();
         for (int i = 0; i < 10; i++)
         fakeCatalog.put("000" + i, new TestItem("000" + i));
