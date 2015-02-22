@@ -250,21 +250,18 @@ public class Post {
         try {
             while (!bufferQueue.isEmpty()) {
                 CustomerImpl customer = bufferQueue.getFirst();
-                if (store.recordSale(customer)) {
-                    printReceipt(customer);
-                } else {
-                    System.out.println("Payment Rejection!!");
-                }
+                String receipt = store.recordSale(customer);
+                printReceipt(receipt);
                 bufferQueue.removeFirst();
             }
         } catch(RemoteException ex) {
-            // do nothing
+            System.out.println("Fail to send sale log to Server " + ex);
         }
         
     }
     
-    private void printReceipt(CustomerImpl customer) {
-        System.out.println("Receipt");
+    private void printReceipt(String receipt) {
+        System.out.println(receipt);
     }
 
 }
@@ -273,13 +270,8 @@ public class Post {
 class TestStore implements Store {
 
     @Override
-    public boolean recordSale(Customer customer) throws RemoteException {
-        if (customer.getPayment().getType() == PaymentType.CASH)
-            return true;
-        else
-            if (Math.random() > 0.1)
-                return true;
-        return false;
+    public String recordSale(Customer customer) throws RemoteException {
+        return "Receipt";
     }
 
     @Override

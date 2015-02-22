@@ -14,11 +14,10 @@ public interface Store extends Remote {
      * 
      * @param customer
      *            customer which is ready for checkout
-     * @return true if customer is ready for checkout; false if there is
-     *         authentication error.
+     * @return a String formatted as a Sales Receipt
      * @throws RemoteException
      */
-    public boolean recordSale (Customer customer) throws RemoteException;
+    public String recordSale(Customer customer) throws RemoteException;
 
     /**
      * @return HashMap of Item UPCs and Items
