@@ -38,29 +38,31 @@ public class ProductPanel extends JPanel {
 		
 		this.setLayout(null);
 		
+		this.setVisible(false);
 		
-		
-		lblProduct = new JLabel("Product");
-		lblProduct.setHorizontalAlignment(SwingConstants.CENTER);
-		lblProduct.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblProduct.setBounds(0, 0, 62, 14);
+		lblProduct = new JLabel("Step 2: Add Product(s)");
+		lblProduct.setHorizontalAlignment(SwingConstants.LEFT);
+		lblProduct.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblProduct.setBounds(10, 0, 253, 14);
 		this.add(lblProduct);
 		
 		lblUpc = new JLabel("UPC");
-		lblUpc.setBounds(10, 25, 34, 20);
+		lblUpc.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUpc.setBounds(10, 25, 46, 20);
 		this.add(lblUpc);
-		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		// !!! UPC list - done
 		upcComboBox = new JComboBox<String>();																			// Get list of UPC for drop down
 		upcComboBox.setModel(new DefaultComboBoxModel(frame.post.getUPCList().toArray()));
 		upcComboBox.setSelectedIndex(0);
-		upcComboBox.setBounds(54, 25, 73, 20);
+		upcComboBox.setBounds(57, 25, 73, 20);
 		this.add(upcComboBox);
 		
 		lblQuantity = new JLabel("Quantity");
-		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblQuantity.setBounds(137, 25, 76, 20);
+		lblQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblQuantity.setBounds(140, 25, 82, 20);
 		this.add(lblQuantity);
 
 		quantityComboBox = new JComboBox<String>();

@@ -37,16 +37,16 @@ public class Post {
         }
         try {
             Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
-            Store store = (Store) registry.lookup(Constants.STORE_ID);
-//            Store store = new TestStore(); // For test only.
+//            Store store = (Store) registry.lookup(Constants.STORE_ID);
+            Store store = new TestStore(); // For test only.
             Post me = new Post(store);
             
         } catch (RemoteException e) {
             System.out.println("Fail to find store " + e);
             e.printStackTrace();
-        } catch (NotBoundException ex) {
-            ex.printStackTrace();
-        }
+        } //catch (NotBoundException ex) {
+          //  ex.printStackTrace();
+       // }
         
     }
 

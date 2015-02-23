@@ -36,25 +36,28 @@ public class PaymentPanel extends JPanel {
 	    this.frame = frame;
 	    
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
-		this.setBounds(71, 456, 543, 95);
+		this.setBounds(10, 456, 604, 95);
 		this.setLayout(null);
 		
-		lblPayment = new JLabel("Payment");
-		lblPayment.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPayment.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPayment.setBounds(0, 0, 66, 14);
+		this.setVisible(false);
+		
+		lblPayment = new JLabel("Step 3: Make Payment");
+		lblPayment.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPayment.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPayment.setBounds(10, 0, 584, 14);
 		this.add(lblPayment);
 		
 		paymentTypeLabel = new JLabel("Payment Type");
+		paymentTypeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		paymentTypeLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		paymentTypeLabel.setBounds(10, 22, 125, 20);
+		paymentTypeLabel.setBounds(10, 22, 153, 20);
 		this.add(paymentTypeLabel);
 		
 
 		amountCreditcardLabel = new JLabel("Cash Amount $");
-		amountCreditcardLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		amountCreditcardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		amountCreditcardLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		amountCreditcardLabel.setBounds(228, 22, 133, 20);
+		amountCreditcardLabel.setBounds(260, 22, 164, 20);
 		this.add(amountCreditcardLabel);
 		
 		
@@ -65,19 +68,19 @@ public class PaymentPanel extends JPanel {
 		paymentTypeComboBox = new JComboBox();
 		paymentTypeComboBox.setModel(new DefaultComboBoxModel(paymentTypeArray));
 		paymentTypeComboBox.setSelectedIndex(0);
-		paymentTypeComboBox.setBounds(140, 24, 73, 20);
+		paymentTypeComboBox.setBounds(167, 24, 73, 20);
 		this.add(paymentTypeComboBox);
 		
 		
 		// Formatted Text Field
 		paymentFormattedTextField = new JFormattedTextField();
 		paymentFormattedTextField.setEnabled(false);
-		paymentFormattedTextField.setBounds(369, 24, 164, 20);
+		paymentFormattedTextField.setBounds(430, 24, 164, 20);
 		this.add(paymentFormattedTextField);
 
 		btnSubmit = new JButton("Submit Order");
 		btnSubmit.setEnabled(false);
-		btnSubmit.setBounds(419, 55, 114, 23);
+		btnSubmit.setBounds(460, 61, 134, 23);
 		this.add(btnSubmit);
 
 	}
@@ -155,7 +158,7 @@ public class PaymentPanel extends JPanel {
         });
 	}
 	
-	private void resetGUI() {
+	public void resetGUI() {
 	    frame.customerPanel.setText("");
         frame.invoicePane.setText("Item\t\t\tQuantity\tUnit Price\tExtended Price\r\n");
         paymentFormattedTextField.setText("");

@@ -14,14 +14,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import post.Post;
+import javax.swing.SwingConstants;
 
 public class CustomerPanel extends JPanel {
 
     private PostGUI frame;
+    private JLabel lblEnterName;
 	private JLabel lblCustomerName;
 	private JTextField nameTextField;
 	private String dateTime;
 	private JButton btnEnterName;
+	private Boolean managerIsLoggedIn;	// keeps track whether manager is logged in or not
 	
 	/**
 	 * Create the Customer Panel
@@ -30,32 +33,80 @@ public class CustomerPanel extends JPanel {
 	    this.frame = frame;
 	    
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
-		this.setBounds(10, 11, 295, 100);
+		this.setBounds(10, 11, 322, 100);
 		
 		this.setLayout(null);
 		
-		lblCustomerName = new JLabel("Customer Name");
-		lblCustomerName.setBounds(10, 25, 130, 20);
+		// default: manager is not logged in
+		managerIsLoggedIn = false;
+		
+		lblEnterName = new JLabel("Step 1: Enter Name");
+		lblEnterName.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEnterName.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEnterName.setBounds(10, 0, 302, 14);
+		lblEnterName.setVisible(false);
+		add(lblEnterName);
+		
+		lblCustomerName = new JLabel("Manager Login");
+		lblCustomerName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCustomerName.setBounds(10, 25, 161, 20);
 		this.add(lblCustomerName);
 		lblCustomerName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		btnEnterName = new JButton("Enter");																		
 		btnEnterName.setEnabled(false);
 		
-		btnEnterName.setBounds(199, 66, 86, 23);
+		btnEnterName.setBounds(226, 66, 86, 23);
 		this.add(btnEnterName);
 		
 		nameTextField = new JTextField();
 		nameTextField.setText("");				
-		nameTextField.setBounds(154, 25, 131, 20);
+		nameTextField.setBounds(181, 25, 131, 20);
 		this.add(nameTextField);
 		nameTextField.setColumns(10);
+		
 	}
 	
 	void addListener() {
 	    btnEnterName.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.post.setCustomerName(nameTextField.getText().trim());
+                
+                // if "manager" is entered into the name text field
+                if(nameTextField.getText().trim().equals("manager")) {
+                	
+                	// toggles whether or not manager is logged in
+                	managerIsLoggedIn = !managerIsLoggedIn;				
+                	
+                	// manager is logged in
+                    if(managerIsLoggedIn == true) {
+                    	lblCustomerName.setText("Customer Name");
+                    	lblEnterName.setVisible(true);
+                    	
+                    	frame.productPanel.setVisible(true);
+                    	frame.invoicePane.setVisible(true);
+                    	frame.totalPanel.setVisible(true);
+                    	frame.timeStampPanel.setVisible(true);
+                    	frame.paymentPanel.setVisible(true);
+                    	
+                    	frame.paymentPanel.resetGUI();
+                    }
+                    
+                    // manager is not logged in
+                    else {	// managerIsLoggedIn == false
+                    	lblCustomerName.setText("Manager Login");
+                    	lblEnterName.setVisible(false);
+                    	
+                    	frame.productPanel.setVisible(false);
+                    	frame.invoicePane.setVisible(false);
+                    	frame.totalPanel.setVisible(false);
+                    	frame.timeStampPanel.setVisible(false);
+                    	frame.paymentPanel.setVisible(false);
+                    	
+                    	frame.paymentPanel.resetGUI();
+                    }
+                }
+   
                 dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
                 frame.timeStampPanel.setLabel();                                                                            // Update the date and time after a name is entered
                 frame.invoicePane.setInvoiceLabel("Invoice   for   " + nameTextField.getText().trim());                 // call a setCustomerName function of some sort?
@@ -90,5 +141,4 @@ public class CustomerPanel extends JPanel {
 	public void setEnabled(boolean bool) {
 		btnEnterName.setEnabled(bool);
 	}
-
 }

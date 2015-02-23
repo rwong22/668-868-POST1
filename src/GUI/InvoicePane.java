@@ -20,9 +20,11 @@ public class InvoicePane  extends JScrollPane {
 		
 		this.setBounds(10, 122, 604, 267);
 			
+		this.setVisible(false);
+		
 		lblInvoice = new JLabel("Invoice");
 		this.setColumnHeaderView(lblInvoice);
-		lblInvoice.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblInvoice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtInvoice = new JTextArea();
 		txtInvoice.setFont(new Font("Tahoma", Font.PLAIN, 14));

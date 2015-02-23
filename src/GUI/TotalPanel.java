@@ -25,9 +25,12 @@ public class TotalPanel extends JPanel {
         
         this.setLayout(null);
         
+        this.setVisible(false);
+        
         lblTotal = new JLabel("Total");                                                                              
+        lblTotal.setHorizontalAlignment(SwingConstants.CENTER);
         lblTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
-        lblTotal.setBounds(10, 11, 43, 23);
+        lblTotal.setBounds(10, 11, 56, 23);
         this.add(lblTotal);
         
         lblTotalCost = new JLabel("$ 0.00");                                                                 

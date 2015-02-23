@@ -7,6 +7,7 @@ import java.util.Calendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 public class TimeStampPanel extends JPanel {
 	
@@ -24,10 +25,13 @@ public class TimeStampPanel extends JPanel {
 		this.setBounds(10, 400, 167, 45);
 		this.setLayout(null);
 		
+		this.setVisible(false);
+		
 		dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());					// time and date
 		lblTimeStamp = new JLabel(dateTime);
+		lblTimeStamp.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeStamp.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTimeStamp.setBounds(10, 11, 153, 23);
+		lblTimeStamp.setBounds(0, 11, 167, 23);
 		this.add(lblTimeStamp);
 	
 	}
