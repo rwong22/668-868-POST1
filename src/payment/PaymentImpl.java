@@ -2,6 +2,8 @@ package payment;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import common.Payment;
 import common.PaymentType;
 
@@ -9,7 +11,7 @@ import common.PaymentType;
  * Abstract class to standardize all payment types
  *
  */
-public abstract class PaymentImpl implements Payment, Serializable {
+public abstract class PaymentImpl extends UnicastRemoteObject implements Payment, Serializable {
 
 	/**
      * 
@@ -19,8 +21,8 @@ public abstract class PaymentImpl implements Payment, Serializable {
     private BigDecimal amount;
 	private PaymentType type;
 
-	public PaymentImpl(BigDecimal amount, PaymentType type) {
-		this.amount = amount;
+	public PaymentImpl(BigDecimal amount, PaymentType type) throws RemoteException {
+	    this.amount = amount;
 		this.type = type;
 	}
 

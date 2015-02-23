@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -53,7 +54,11 @@ public class ProductPanel extends JPanel {
 		lblUpc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		// !!! UPC list - done
-		upcComboBox = new JComboBox<String>();																			// Get list of UPC for drop down
+		upcComboBox = new JComboBox<String>();	
+		// Get list of UPC for drop down
+//		ArrayList<String> list = frame.post.getUPCList();
+//		Object[] arr = list.toArray();
+		
 		upcComboBox.setModel(new DefaultComboBoxModel(frame.post.getUPCList().toArray()));
 		upcComboBox.setSelectedIndex(0);
 		upcComboBox.setBounds(57, 25, 73, 20);

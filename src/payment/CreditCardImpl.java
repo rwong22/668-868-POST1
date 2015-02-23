@@ -1,6 +1,7 @@
 package payment;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import common.CreditCard;
 import common.PaymentType;
 
@@ -12,7 +13,7 @@ public class CreditCardImpl extends PaymentImpl implements CreditCard {
 
 	private String cardNumber;
 
-	public CreditCardImpl(BigDecimal amount, String cardNumber) {
+	public CreditCardImpl(BigDecimal amount, String cardNumber) throws RemoteException {
 		super(amount, PaymentType.CREDIT);
 		this.cardNumber = cardNumber;
 	}

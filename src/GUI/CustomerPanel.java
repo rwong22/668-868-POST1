@@ -73,7 +73,7 @@ public class CustomerPanel extends JPanel {
                 frame.post.setCustomerName(nameTextField.getText().trim());
                 
                 // if "manager" is entered into the name text field
-                if(nameTextField.getText().trim().equals("manager")) {
+                if(nameTextField.getText().trim().equals(frame.post.getManagerName())) {
                 	
                 	// toggles whether or not manager is logged in
                 	managerIsLoggedIn = !managerIsLoggedIn;				
@@ -105,12 +105,13 @@ public class CustomerPanel extends JPanel {
                     	
                     	frame.paymentPanel.resetGUI();
                     }
-                }
+                } else {
    
                 dateTime = new SimpleDateFormat("yyyy/MM/dd   HH:mm:ss").format(Calendar.getInstance().getTime());
                 frame.timeStampPanel.setLabel();                                                                            // Update the date and time after a name is entered
                 frame.invoicePane.setInvoiceLabel("Invoice   for   " + nameTextField.getText().trim());                 // call a setCustomerName function of some sort?
                 frame.paymentPanel.setTextFieldEnabled(true);                                                   // enables payment text field after "Enter" name button is pressed
+                }
             }
         });
 	    

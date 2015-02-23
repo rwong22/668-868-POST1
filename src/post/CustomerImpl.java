@@ -42,15 +42,6 @@ public class CustomerImpl extends UnicastRemoteObject implements Customer {
 	    cardNumber = "";
 	}
 	
-	// Don't use
-	public CustomerImpl(String name, ArrayList<ItemTuple> items, Payment payment) throws RemoteException {
-        super();
-	    this.name = name;
-        this.itemContainer = items;
-        this.payment = payment;
-        purchaseTime = "";
-    }
-	
 	public String getName() {
         return name;
     }

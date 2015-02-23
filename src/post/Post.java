@@ -1,6 +1,7 @@
 package post;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -37,18 +38,20 @@ public class Post {
         }
         try {
             Registry registry = LocateRegistry.getRegistry(Constants.REGISTRY_HOST, Constants.REGISTRY_PORT);
-//            Store store = (Store) registry.lookup(Constants.STORE_ID);
-            Store store = new TestStore(); // For test only.
+            Store store = (Store) registry.lookup(Constants.STORE_ID);
+//            Store store = new TestStore(); // For test only.
             Post me = new Post(store);
             
         } catch (RemoteException e) {
             System.out.println("Fail to find store " + e);
             e.printStackTrace();
-        } //catch (NotBoundException ex) {
-          //  ex.printStackTrace();
-       // }
+        } catch (NotBoundException ex) {
+            ex.printStackTrace();
+        }
         
     }
+    
+    private static final String ManagerName = "manager";
 
     private Store store;
     private PostGUI GUI;
@@ -64,7 +67,8 @@ public class Post {
         bufferQueue = new LinkedList<CustomerImpl>();
         // Can Post start without complete catalog?
         while (!loadCatalog(store)) {
-            break; // For test only!!
+            System.out.println("Reading Catalog...");
+            //break; // For test only!!
         }
         GUI = new PostGUI(this);
         GUI.open();
@@ -92,6 +96,10 @@ public class Post {
     }
     
     // ----------Methods used by GUI---------
+    
+    public String getManagerName() {
+        return ManagerName;
+    }
     
     /*
      * Return a ArrayList<String> of all the UPC of items in catalog.
@@ -179,16 +187,20 @@ public class Post {
     // For CASH and CHECK types, use "" or null as cardNumber
     @Deprecated
     public void addPayment(PaymentType paymentType, double amount, String cardNumber) {
-        switch (paymentType) {
-        case CASH:
-            addPayment(new CashImpl(new BigDecimal(amount)));
-            break;
-        case CHECK:
-            addPayment(new CheckImpl(new BigDecimal(amount)));
-            break;
-        case CREDIT:
-            addPayment(new CreditCardImpl(new BigDecimal(amount), cardNumber));
-            break;
+        try {
+            switch (paymentType) {
+            case CASH:
+                addPayment(new CashImpl(new BigDecimal(amount)));
+                break;
+            case CHECK:
+                addPayment(new CheckImpl(new BigDecimal(amount)));
+                break;
+            case CREDIT:
+                addPayment(new CreditCardImpl(new BigDecimal(amount), cardNumber));
+                break;
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
     
@@ -196,21 +208,33 @@ public class Post {
      * Add a cash payment to current customer.
      */
     public void addCashPayment(double amount) {
-        addPayment(new CashImpl(new BigDecimal(amount)));
+        try {
+            addPayment(new CashImpl(new BigDecimal(amount).setScale(2, RoundingMode.HALF_EVEN)));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
     
     /*
      * Add a check payment to current customer.
      */
     public void addCheckPayment(double amount) {
-        addPayment(new CheckImpl(new BigDecimal(amount)));
+        try {
+            addPayment(new CheckImpl(new BigDecimal(amount).setScale(2, RoundingMode.HALF_EVEN)));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
     
     /*
      * Add a credit card payment to current customer.
      */
     public void addCreditPayment(double amount, String cardNumber) {
-        addPayment(new CreditCardImpl(new BigDecimal(amount), cardNumber));
+        try {
+            addPayment(new CreditCardImpl(new BigDecimal(amount).setScale(2, RoundingMode.HALF_EVEN), cardNumber));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
     
     private void addPayment(PaymentImpl payment) {
