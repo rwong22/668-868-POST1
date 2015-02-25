@@ -27,7 +27,7 @@ public class InvoicePane  extends JScrollPane {
 		lblInvoice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtInvoice = new JTextArea();
-		txtInvoice.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtInvoice.setFont(new Font("Courier", Font.PLAIN, 14));
 		this.setViewportView(txtInvoice);
 		txtInvoice.setDropMode(DropMode.INSERT);
 		txtInvoice.setText("Item\t\t\tQuantity\tUnit Price\tExtended Price\r\n");

@@ -67,7 +67,14 @@ public class Post {
         bufferQueue = new LinkedList<CustomerImpl>();
         // Can Post start without complete catalog?
         while (!loadCatalog(store)) {
-            System.out.println("Reading Catalog...");
+            System.out.println("Retry at 5 seconds...");
+            try {
+                synchronized(this){
+                    this.wait(5000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             //break; // For test only!!
         }
         GUI = new PostGUI(this);
@@ -290,45 +297,45 @@ public class Post {
 
 }
 
-// These two classes will be remove after test
-class TestStore implements Store {
-
-    @Override
-    public String recordSale(Customer customer) throws RemoteException {
-        return "Receipt";
-    }
-
-    @Override
-    public HashMap<String, Item> getCatalog() throws RemoteException {
-        HashMap<String, Item> fakeCatalog = new HashMap<String, Item>();
-        for (int i = 0; i < 10; i++)
-        fakeCatalog.put("000" + i, new TestItem("000" + i));
-        return fakeCatalog;
-    }
-    
-}
-
-class TestItem implements Item {
-    
-    private String UPC;
-    
-    public TestItem(String UPC) {
-        this.UPC = UPC;
-    }
-
-    @Override
-    public BigDecimal getPrice() throws RemoteException {
-        return new BigDecimal(123.4567);
-    }
-
-    @Override
-    public String getDescription() throws RemoteException {
-        return "A Description of " + UPC;
-    }
-
-    @Override
-    public String getUPC() throws RemoteException {
-        return UPC;
-    }
-    
-}
+//// These two classes will be remove after test
+//class TestStore implements Store {
+//
+//    @Override
+//    public String recordSale(Customer customer) throws RemoteException {
+//        return "Receipt";
+//    }
+//
+//    @Override
+//    public HashMap<String, Item> getCatalog() throws RemoteException {
+//        HashMap<String, Item> fakeCatalog = new HashMap<String, Item>();
+//        for (int i = 0; i < 10; i++)
+//        fakeCatalog.put("000" + i, new TestItem("000" + i));
+//        return fakeCatalog;
+//    }
+//    
+//}
+//
+//class TestItem implements Item {
+//    
+//    private String UPC;
+//    
+//    public TestItem(String UPC) {
+//        this.UPC = UPC;
+//    }
+//
+//    @Override
+//    public BigDecimal getPrice() throws RemoteException {
+//        return new BigDecimal(123.4567);
+//    }
+//
+//    @Override
+//    public String getDescription() throws RemoteException {
+//        return "A Description of " + UPC;
+//    }
+//
+//    @Override
+//    public String getUPC() throws RemoteException {
+//        return UPC;
+//    }
+//    
+//}
